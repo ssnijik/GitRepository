@@ -35,7 +35,7 @@ public class HibernateUtil {
 	 * @return Session
 	 */
 	
-	public static Session openSession() {
+	public static Session getSession() {
 		return sessionFactory.openSession();
 	}
 	
