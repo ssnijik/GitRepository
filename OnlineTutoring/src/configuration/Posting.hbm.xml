@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.pojo.Posting" table="posting">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+     
+        <property name="title" column="title" type="string" length="30" not-null="true"/>
+        <property name="content" column="content" type="string" length="1000" not-null="true"/>
+        <property name="time" type="date" not-null="true" generated="insert">
+        	<column name="time" sql-type="datetime" default="CURRENT_TIMESTAMP"/>
+        </property>
+		
+		<many-to-one name="postedBy" column="posted_by_id" class="com.onlinetutoring.pojo.Person" not-null="true"></many-to-one>
+		<many-to-one name="master" column="master_id" class="com.onlinetutoring.pojo.Master" not-null="true"></many-to-one>
+
+    </class>
+</hibernate-mapping>

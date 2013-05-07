@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="/OnlineTutoring/styles/upload/fineuploader-3.5.0.css" rel="stylesheet">
+<link href="/OnlineTutoring/styles/upload/bootstrap.min.css" rel="stylesheet">
+<script src="/OnlineTutoring/scripts/upload/fineuploader-3.5.0.min.js"></script>
+<script src="/OnlineTutoring/scripts/upload/iframe.xss.response-3.5.0.js"></script>
+<title>Fine upload Demo</title>
+</head>
+<body>
+	<div id="bootstrapped-fine-uploader"></div>   
+	<script>
+	    function createUploader() {
+	    	var uploader = new qq.FineUploader({
+	            element: document.getElementById('bootstrapped-fine-uploader'),
+	            request: {
+	              endpoint: '../UploadReceiver'
+	            }
+	          });
+	    }
+	    
+	    window.onload = createUploader;
+</script>
+</body>
+</html>

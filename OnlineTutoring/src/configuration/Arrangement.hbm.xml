@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.pojo.Arrangement" table="arrangement">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+     
+        <property name="score" column="score" type="int"/>
+		
+		<many-to-one name="tutor" column="tutor_id" class="com.onlinetutoring.pojo.Tutor" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="course" column="course_id" class="com.onlinetutoring.pojo.Course" lazy="false" not-null="true"></many-to-one>
+		
+		<set name="timetables" inverse="true" lazy="true">
+			<key column="arrangement_id"></key>
+			<one-to-many class="com.onlinetutoring.pojo.Timetable"/>
+		</set>
+
+    </class>
+</hibernate-mapping>

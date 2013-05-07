@@ -1,6 +1,7 @@
 package com.onlinetutoring.pojo;
 
 import java.util.Date;
+import java.util.Set;
 
 public class Person {
 
@@ -10,25 +11,37 @@ public class Person {
 	
 	private String lastName;
 	
-	private String password;
-	
 	private String email;
 	
-	private String country;
-	
-	private String city;
-	
-	private String address;
+	private String password;
 	
 	private String phone;
 	
 	private Date birthday;
 	
-	private int cardNumber;
+	private String cardNumber;
 	
 	private char type;
 	
 	private int score;
+	
+	private String avator;
+	
+	private Set<Tutor> tutors;
+	
+	private Set<Student> students;
+
+	private Set<Person> hosts;
+	
+	private Set<Person> guests;
+	
+	private Set<Person> senders;
+	
+	private Set<Person> recipients;
+
+	private Set<Master> masters;
+
+	private Set<Posting> postings;
 	
 	/**
 	 * Default constructor
@@ -39,46 +52,42 @@ public class Person {
 	/**
 	 * @param firstName
 	 * @param lastName
-	 * @param password
 	 * @param email
+	 * @param password
 	 */
-	public Person(String firstName, String lastName, String password,
-			String email) {
+	public Person(String firstName, String lastName, String email,
+			String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.password = password;
 		this.email = email;
+		this.password = password;
 	}
-	
+
 	/**
 	 * @param firstName
 	 * @param lastName
-	 * @param password
 	 * @param email
-	 * @param country
-	 * @param city
-	 * @param address
+	 * @param password
 	 * @param phone
 	 * @param birthday
 	 * @param cardNumber
 	 * @param type
 	 * @param score
+	 * @param avator
 	 */
-	public Person(String firstName, String lastName, String password,
-			String email, String country, String city, String address,
-			String phone, Date birthday, int cardNumber, char type, int score) {
+	public Person(String firstName, String lastName, String email,
+			String password, String phone, Date birthday, String cardNumber,
+			char type, int score, String avator) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.password = password;
 		this.email = email;
-		this.country = country;
-		this.city = city;
-		this.address = address;
+		this.password = password;
 		this.phone = phone;
 		this.birthday = birthday;
 		this.cardNumber = cardNumber;
 		this.type = type;
 		this.score = score;
+		this.avator = avator;
 	}
 
 	/**
@@ -152,48 +161,6 @@ public class Person {
 	}
 
 	/**
-	 * @return the country
-	 */
-	public String getCountry() {
-		return country;
-	}
-
-	/**
-	 * @param country the country to set
-	 */
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return city;
-	}
-
-	/**
-	 * @param city the city to set
-	 */
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	/**
-	 * @return the address
-	 */
-	public String getAddress() {
-		return address;
-	}
-
-	/**
-	 * @param address the address to set
-	 */
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	/**
 	 * @return the phone
 	 */
 	public String getPhone() {
@@ -224,14 +191,14 @@ public class Person {
 	/**
 	 * @return the cardNumber
 	 */
-	public int getCardNumber() {
+	public String getCardNumber() {
 		return cardNumber;
 	}
 
 	/**
 	 * @param cardNumber the cardNumber to set
 	 */
-	public void setCardNumber(int cardNumber) {
+	public void setCardNumber(String cardNumber) {
 		this.cardNumber = cardNumber;
 	}
 
@@ -266,6 +233,138 @@ public class Person {
 	public void setScore(int score) {
 		this.score = score;
 	}
+
+
+
+	/**
+	 * @return the avator
+	 */
+	public String getAvator() {
+		return avator;
+	}
+
+
+
+	/**
+	 * @param avator the avator to set
+	 */
+	public void setAvator(String avator) {
+		this.avator = avator;
+	}
+
+	/**
+	 * @return the tutors
+	 */
+	public Set<Tutor> getTutors() {
+		return tutors;
+	}
+
+	/**
+	 * @param tutors the tutors to set
+	 */
+	public void setTutors(Set<Tutor> tutors) {
+		this.tutors = tutors;
+	}
+
+	/**
+	 * @return the students
+	 */
+	public Set<Student> getStudents() {
+		return students;
+	}
+
+	/**
+	 * @param students the students to set
+	 */
+	public void setStudents(Set<Student> students) {
+		this.students = students;
+	}
+
+	/**
+	 * @return the hosts
+	 */
+	public Set<Person> getHosts() {
+		return hosts;
+	}
+
+	/**
+	 * @param hosts the hosts to set
+	 */
+	public void setHosts(Set<Person> hosts) {
+		this.hosts = hosts;
+	}
+
+	/**
+	 * @return the guests
+	 */
+	public Set<Person> getGuests() {
+		return guests;
+	}
+
+	/**
+	 * @param guests the guests to set
+	 */
+	public void setGuests(Set<Person> guests) {
+		this.guests = guests;
+	}
+
+	/**
+	 * @return the senders
+	 */
+	public Set<Person> getSenders() {
+		return senders;
+	}
+
+	/**
+	 * @param senders the senders to set
+	 */
+	public void setSenders(Set<Person> senders) {
+		this.senders = senders;
+	}
+
+	/**
+	 * @return the recipients
+	 */
+	public Set<Person> getRecipients() {
+		return recipients;
+	}
+
+	/**
+	 * @param recipients the recipients to set
+	 */
+	public void setRecipients(Set<Person> recipients) {
+		this.recipients = recipients;
+	}
+
+	/**
+	 * @return the masters
+	 */
+	public Set<Master> getMasters() {
+		return masters;
+	}
+
+	/**
+	 * @param masters the masters to set
+	 */
+	public void setMasters(Set<Master> masters) {
+		this.masters = masters;
+	}
+
+	/**
+	 * @return the postings
+	 */
+	public Set<Posting> getPostings() {
+		return postings;
+	}
+
+	/**
+	 * @param postings the postings to set
+	 */
+	public void setPostings(Set<Posting> postings) {
+		this.postings = postings;
+	}
+
+	
 	
 	
 }

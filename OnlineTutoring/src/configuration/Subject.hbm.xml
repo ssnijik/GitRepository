@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.pojo.Subject" table="subject">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+		
+		<many-to-one name="parentSubject" column="subject_id" class="com.onlinetutoring.pojo.Subject" lazy="false"></many-to-one>
+		
+		<set name="childSubjects" inverse="true" lazy="true">
+			<key column="subject_id"></key>
+			<one-to-many class="com.onlinetutoring.pojo.Subject"/>
+		</set>
+		<set name="tutors" inverse="true" lazy="true" table="specialty">
+			<key column="subject_id"></key>
+			<many-to-many class="com.onlinetutoring.pojo.Tutor" column="tutor_id"/>
+		</set>
+		<set name="courses" inverse="true" lazy="true">
+			<key column="subject_id"></key>
+			<one-to-many class="com.onlinetutoring.pojo.Course"/>
+		</set>
+
+    </class>
+</hibernate-mapping>

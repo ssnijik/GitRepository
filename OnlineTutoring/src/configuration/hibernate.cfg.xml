@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- 指定数据库使用的驱动类 -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<!-- 指定数据库连接串  -->
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/onlinetutoring</property>
+		<!-- 指定数据库连接的用户名和密码 -->
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">admin</property>
+		<!-- 指定数据库使用的方言 -->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- 指定是否打印SQL语句,为了查看方便，我在这里设置为true -->
+		<property name="hibernate.show_sql">true</property> 
+		<mapping resource="configuration/Arrangement.hbm.xml"/>
+		<mapping resource="configuration/Course.hbm.xml"/>
+		<mapping resource="configuration/Master.hbm.xml"/>
+		<mapping resource="configuration/Notification.hbm.xml"/>
+		<mapping resource="configuration/Person.hbm.xml"/>
+		<mapping resource="configuration/Posting.hbm.xml"/>
+		<mapping resource="configuration/Student.hbm.xml"/>
+		<mapping resource="configuration/StudentTimetable.hbm.xml"/>
+		<mapping resource="configuration/Subject.hbm.xml"/>
+		<mapping resource="configuration/Timetable.hbm.xml"/>
+		<mapping resource="configuration/Tutor.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>

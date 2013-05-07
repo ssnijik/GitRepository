@@ -1,0 +1,13 @@
+TRUNCATE TABLE posting;
+TRUNCATE TABLE master;
+TRUNCATE TABLE friend;
+TRUNCATE TABLE notification;
+TRUNCATE TABLE student_timetable;
+TRUNCATE TABLE student;
+TRUNCATE TABLE timetable;
+TRUNCATE TABLE arrangement;
+TRUNCATE TABLE course;
+TRUNCATE TABLE specialty;
+TRUNCATE TABLE subject;
+TRUNCATE TABLE tutor;
+TRUNCATE TABLE person;

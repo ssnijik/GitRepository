@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.pojo.Notification" table="notification">
+        <id name="id" column="id" type="long">
+            <generator class="increment"/>
+        </id>
+     
+        <property name="time" type="date" not-null="true" generated="insert">
+        	<column name="time" sql-type="datetime" default="CURRENT_TIMESTAMP"/>
+        </property>
+        <property name="content" column="content" type="string" length="1000" not-null="true"/>
+		
+		<many-to-one name="sender" column="sender_id" class="com.onlinetutoring.pojo.Person" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="recipient" column="recipient_id" class="com.onlinetutoring.pojo.Person" lazy="false" not-null="true"></many-to-one>
+		
+
+    </class>
+</hibernate-mapping>
