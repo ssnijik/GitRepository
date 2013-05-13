@@ -60,20 +60,20 @@ public class DaoRunner {
 		posting = new Posting(person, "ptitle1", "pcontent1", master);
 		
 		
-		personDao.addPerson(person);
-		personDao.addPerson(recipient);
-		
-		studentDao.addStudent(student);
-		tutorDao.addTutor(tutor);
-		subjectDao.addSubject(subject);
-		courseDao.addCourse(course);
-		arrangementDao.addArrangement(arrangement);
-		timetableDao.addTimetable(timetable);
-		studentTimetableDao.addStudentTimetable(studentTimetable);
-		
-		notificationDao.addNotification(notification);
-		masterDao.addMaster(master);
-		postingDao.addPosting(posting);
+//		personDao.addPerson(person);
+//		personDao.addPerson(recipient);
+//		
+//		studentDao.addStudent(student);
+//		tutorDao.addTutor(tutor);
+//		subjectDao.addSubject(subject);
+//		courseDao.addCourse(course);
+//		arrangementDao.addArrangement(arrangement);
+//		timetableDao.addTimetable(timetable);
+//		studentTimetableDao.addStudentTimetable(studentTimetable);
+//		
+//		notificationDao.addNotification(notification);
+//		masterDao.addMaster(master);
+//		postingDao.addPosting(posting);
 
 	}
 	
