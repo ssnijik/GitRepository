@@ -14,8 +14,8 @@
         </property>
         <property name="content" column="content" type="string" length="200" not-null="true"/>
 		
-		<many-to-one name="sender" column="sender_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
-		<many-to-one name="receiver" column="receiver_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="sender" column="sender_id" class="com.onlinetutoring.domain.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="receiver" column="receiver_id" class="com.onlinetutoring.domain.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
 		
 
     </class>

@@ -23,10 +23,10 @@
         <property name="picture" column="pic_sn" type="string" length="10"/>
         <property name="attachment" column="attachment_sn" type="string" length="10"/>
 		
-		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
-		<many-to-one name="subject" column="subject_id" class="com.onlinetutoring.domain.Subject" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="subject" column="subject_id" class="com.onlinetutoring.domain.Subject" lazy="false" cascade="save-update" not-null="true"></many-to-one>
 		
-		<set name="answers" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="answers" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="question_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Answer"/>
 		</set>

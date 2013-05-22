@@ -4,32 +4,28 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.onlinetutoring.domain.Person" table="person">
-        <id name="id" column="id" type="long">
-            <generator class="increment"/>
+	<class name="com.onlinetutoring.domain.User" table="user">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
         </id>
      
         <property name="firstName" column="first_name" type="string" length="30"/>
         <property name="lastName" column="last_name" type="string" length="30"/>
-        <property name="email" column="email" type="string" length="60" not-null="true"/>
+        <property name="email" unique="true" column="email" type="string" length="60" not-null="true"/>
         <property name="password" column="password" type="string" length="30" not-null="true"/>
         <property name="phone" column="phone" type="string" length="15"/>
         <property name="birthday" column="birthday" type="date"/>
         <property name="cardNumber" column="card_num" type="string" length="16"/>
-        <property name="type" column="type" type="char" length="1"/>
+        <property name="type" column="type" type="char" length="1" not-null="true"/>
         <property name="point" column="point" type="int"/>
         <property name="picture" column="head_pic_sn" type="string" length="10"/>
         <property name="school" column="school" type="string" length="20"/>
         <property name="cookie" column="cookie_sn" type="string" length="20"/>
 		
-		<set name="students" cascade="all-delete-orphon" inverse="true" lazy="true">
-			<key column="user_id"></key>
-			<one-to-many class="com.onlinetutoring.domain.Student"/>
-		</set>
-		<set name="tutors" cascade="all-delete-orphon" inverse="true" lazy="true">
-			<key column="user_id"></key>
-			<one-to-many class="com.onlinetutoring.domain.Tutor"/>
-		</set>
+
+		<one-to-one name="student" cascade="all-delete-orphan" lazy="false" class="com.onlinetutoring.domain.Student" />
+		<one-to-one name="tutor" cascade="all-delete-orphan" lazy="false" class="com.onlinetutoring.domain.Tutor"/>
+
 		<set name="friendsHaveMe" cascade="save-update" inverse="false" lazy="true" table="friend">
 			<key column="id_b"></key>
 			<many-to-many class="com.onlinetutoring.domain.User" column="id_a"/>
@@ -38,23 +34,23 @@
 			<key column="id_a"></key>
 			<many-to-many class="com.onlinetutoring.domain.User" column="id_b"/>
 		</set>
-		<set name="sends" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="sends" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="sender_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Message"/>
 		</set>
-		<set name="receives" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="receives" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="receiver_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Message"/>
 		</set>
-		<set name="questions" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="questions" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="user_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Question"/>
 		</set>
-		<set name="answers" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="answers" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="user_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Answer"/>
 		</set>
-		<set name="notifications" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="notifications" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="user_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Notification"/>
 		</set>

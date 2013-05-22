@@ -12,9 +12,9 @@
         <property name="balance" column="balance" type="int"/>
         <property name="description" column="description" type="string" length="1000"/>
 		
-		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="user" unique="true" column="user_id" class="com.onlinetutoring.domain.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
 		
-		<set name="courses" cascade="all-delete-orphon" inverse="true" lazy="true">
+		<set name="courses" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="tutor_id"></key>
 			<one-to-many class="com.onlinetutoring.domain.Course"/>
 		</set>

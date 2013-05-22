@@ -54,18 +54,15 @@
 		</property>
 		<property name="mappingResources">
         	<list>
-	        	<value>Arrangement.hbm.xml</value>
+	        	<value>Answer.hbm.xml</value>
 	        	<value>Course.hbm.xml</value>
-	        	<value>Master.hbm.xml</value>
 	        	<value>Message.hbm.xml</value>
 	        	<value>Notification.hbm.xml</value>
-	        	<value>Person.hbm.xml</value>
-	        	<value>Posting.hbm.xml</value>
+	        	<value>Question.hbm.xml</value>
 	        	<value>Student.hbm.xml</value>
-	        	<value>StudentTimetable.hbm.xml</value>
 	        	<value>Subject.hbm.xml</value>
-	        	<value>Timetable.hbm.xml</value>
 	        	<value>Tutor.hbm.xml</value>
+	        	<value>User.hbm.xml</value>
         	</list>
         </property>
         <property name="hibernateProperties">

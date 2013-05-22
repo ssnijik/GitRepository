@@ -20,8 +20,7 @@ import com.onlinetutoring.service.IUserService;
  *
  */
 @Service("userService")
-public class UserService extends BaseService<User, Integer> implements
-		IUserService {
+public class UserService extends BaseService<User, Integer> implements IUserService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 	private IUserDao iUserDao;

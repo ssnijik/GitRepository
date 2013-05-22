@@ -19,8 +19,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.onlinetutoring.domain.User;
-import com.onlinetutoring.service.IUserService;
+import com.onlinetutoring.domain.Subject;
+import com.onlinetutoring.service.ISubjectService;
 
 /**
  * @author Ssn
@@ -30,24 +30,24 @@ import com.onlinetutoring.service.IUserService;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
-public class UserServiceTest {
+public class SubjectServiceTest {
 
 AtomicInteger counter = new AtomicInteger();
     
 	@Autowired
-	@Qualifier("userService")
-    private IUserService userService;
+	@Qualifier("subjectService")
+    private ISubjectService subjectService;
     
 
  
     @Test
     public void testCreate() {
         
-        int beforeDbCount = userService.countAll();
+        int beforeDbCount = subjectService.countAll();
         
-        userService.save(genRandomUser());
+        subjectService.save(genRandomSubject());
         
-        int afterDbCount = userService.countAll();
+        int afterDbCount = subjectService.countAll();
         
         assertEquals(beforeDbCount + 1, afterDbCount);
     }
@@ -55,27 +55,27 @@ AtomicInteger counter = new AtomicInteger();
     @Test
     public void testUpdate() {
         
-        User user = userService.save(genRandomUser());
-        String expectedPassword = "123234";
-        user.setPassword(expectedPassword);
-        userService.update(user);
+        Subject subject = subjectService.save(genRandomSubject());
+        String expectedName = "math";
+        subject.setName(expectedName);
+        subjectService.update(subject);
         
-        String actualPassword = userService.get(user.getId()).getPassword();
+        String actualName = subjectService.get(subject.getId()).getName();
         
-        assertEquals(expectedPassword, actualPassword);
+        assertEquals(expectedName, actualName);
         
     }
     
     @Test
     public void testDelete() {
 
-        int beforeDbCount = userService.countAll();
+        int beforeDbCount = subjectService.countAll();
         
-        User user = userService.save(genRandomUser());
+        Subject subject = subjectService.save(genRandomSubject());
         
-        userService.delete(user.getId());
+        subjectService.delete(subject.getId());
         
-        int afterDbCount = userService.countAll();
+        int afterDbCount = subjectService.countAll();
         
         assertEquals(beforeDbCount, afterDbCount);
     }
@@ -83,22 +83,19 @@ AtomicInteger counter = new AtomicInteger();
     @Test
     public void testList() {
 
-    	User user = userService.save(genRandomUser());
+    	Subject subject = subjectService.save(genRandomSubject());
         
-        List<User> userList = userService.listAll();
+        List<Subject> subjectList = subjectService.listAll();
         
-        assertThat(userList, hasItem(user));
+        assertThat(subjectList, hasItem(subject));
     }
     
     
-    public User genRandomUser() {
+    public Subject genRandomSubject() {
         long randomKey = System.nanoTime() + counter.addAndGet(1);
-        User user = new User();
-        user.setFirstName("ni" + randomKey);
-        user.setLastName("mei" + randomKey);
-        user.setEmail("zhang" + randomKey + "@sishuok.com");
-        user.setPassword("123456");
-//        user.setType('s');
-        return user;
+        Subject subject = new Subject();
+        subject.setName("ni" + randomKey);
+
+        return subject;
     }
 }

@@ -15,8 +15,8 @@
         </property>
         <property name="picture" column="pic_sn" type="string" length="10"/>
 		
-		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" not-null="true"></many-to-one>
-		<many-to-one name="question" column="question_id" class="com.onlinetutoring.domain.Question" not-null="true"></many-to-one>
+		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" cascade="save-update" not-null="true"></many-to-one>
+		<many-to-one name="question" column="question_id" class="com.onlinetutoring.domain.Question" cascade="save-update" not-null="true"></many-to-one>
 
     </class>
 </hibernate-mapping>

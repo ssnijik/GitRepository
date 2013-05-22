@@ -34,9 +34,9 @@ public class User  extends AbstractModel {
 	
 	private String cookie;
 	
-	private Set<Tutor> tutors;
+	private Tutor tutor;
 	
-	private Set<Student> students;
+	private Student student;
 
 	private Set<User> friendsHaveMe;
 	
@@ -282,34 +282,35 @@ public class User  extends AbstractModel {
 		this.cookie = cookie;
 	}
 
+
+
 	/**
-	 * @return the tutors
+	 * @return the tutor
 	 */
-	public Set<Tutor> getTutors() {
-		return tutors;
+	public Tutor getTutor() {
+		return tutor;
 	}
 
 	/**
-	 * @param tutors the tutors to set
+	 * @param tutor the tutor to set
 	 */
-	public void setTutors(Set<Tutor> tutors) {
-		this.tutors = tutors;
+	public void setTutor(Tutor tutor) {
+		this.tutor = tutor;
 	}
 
 	/**
-	 * @return the students
+	 * @return the student
 	 */
-	public Set<Student> getStudents() {
-		return students;
+	public Student getStudent() {
+		return student;
 	}
 
 	/**
-	 * @param students the students to set
+	 * @param student the student to set
 	 */
-	public void setStudents(Set<Student> students) {
-		this.students = students;
+	public void setStudent(Student student) {
+		this.student = student;
 	}
-
 
 	/**
 	 * @return the friendsHaveMe
