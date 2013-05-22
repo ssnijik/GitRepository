@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.onlinetutoring.pojo.Person;
-import com.onlinetutoring.service.UserService;
+import com.onlinetutoring.domain.User;
+import com.onlinetutoring.service.impl.UserService;
 
 /**
  * @author Ssn
@@ -25,7 +25,7 @@ public class UserController {
 	
 	@RequestMapping("/login")
 	@ResponseBody
-	public String login (HttpServletRequest request, Person person) {
+	public String login (HttpServletRequest request, User person) {
 		return "ok";
 	}
 }

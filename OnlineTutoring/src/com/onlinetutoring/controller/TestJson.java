@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.onlinetutoring.pojo.Person;
+import com.onlinetutoring.domain.User;
 
 /**
  * Servlet implementation class TestJson
@@ -40,12 +40,12 @@ public class TestJson extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Gson gson = new Gson();
 		
-		Person person = gson.fromJson(request.getReader(), Person.class);
+		User user = gson.fromJson(request.getReader(), User.class);
 		
-		System.out.println(person.getEmail());
-		System.out.println(person.getPassword());
+		System.out.println(user.getEmail());
+		System.out.println(user.getPassword());
 		
-		Person pa = new Person("aaa", "bbb", "e@mail.com", "nopass");
+		User pa = new User("e@mail.com", "nopass", 's');
 		
 		System.out.println(gson.toJson(pa));
 		PrintWriter out = response.getWriter();

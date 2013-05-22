@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.domain.Notification" table="notification">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
+        </id>
+     
+     	<property name="notification_id" column="notification_id" type="int" not-null="true"/>
+        <property name="time" type="date" not-null="true" generated="insert">
+        	<column name="time" sql-type="datetime" default="CURRENT_TIMESTAMP"/>
+        </property>
+        <property name="type" column="type" type="int" not-null="true"/>
+		
+		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
+		
+
+    </class>
+</hibernate-mapping>

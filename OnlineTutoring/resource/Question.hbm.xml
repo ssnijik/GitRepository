@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.domain.Question" table="question">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
+        </id>
+     
+        <property name="title" column="title" type="string" length="30" not-null="true"/>
+        <property name="content" column="content" type="string" length="1000" not-null="true"/>
+        <property name="time" type="date" not-null="true" generated="insert">
+        	<column name="time" sql-type="datetime" default="CURRENT_TIMESTAMP"/>
+        </property>
+        <property name="view" type="int" not-null="true" generated="insert">
+        	<column name="view" sql-type="int" default="0"/>
+        </property>
+        <property name="reply" type="int" not-null="true" generated="insert">
+        	<column name="reply" sql-type="int" default="0"/>
+        </property>
+        <property name="picture" column="pic_sn" type="string" length="10"/>
+        <property name="attachment" column="attachment_sn" type="string" length="10"/>
+		
+		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="subject" column="subject_id" class="com.onlinetutoring.domain.Subject" lazy="false" not-null="true"></many-to-one>
+		
+		<set name="answers" cascade="all-delete-orphon" inverse="true" lazy="true">
+			<key column="question_id"></key>
+			<one-to-many class="com.onlinetutoring.domain.Answer"/>
+		</set>
+		
+
+    </class>
+</hibernate-mapping>

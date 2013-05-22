@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.onlinetutoring.domain.Tutor" table="tutor">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
+        </id>
+     
+        <property name="balance" column="balance" type="int"/>
+        <property name="description" column="description" type="string" length="1000"/>
+		
+		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" lazy="false" not-null="true"></many-to-one>
+		
+		<set name="courses" cascade="all-delete-orphon" inverse="true" lazy="true">
+			<key column="tutor_id"></key>
+			<one-to-many class="com.onlinetutoring.domain.Course"/>
+		</set>
+		<set name="subjects" cascade="save-update" inverse="false" lazy="true" table="specialty">
+			<key column="tutor_id"></key>
+			<many-to-many class="com.onlinetutoring.domain.Subject" column="subject_id"/>
+		</set>
+
+    </class>
+</hibernate-mapping>
