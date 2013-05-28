@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.tutoring.entity.Subject" table="subject">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
+        </id>
+		
+		<property name="name" column="name" type="string" length="20" not-null="true"/>
+		
+		<set name="questions" cascade="all-delete-orphan" inverse="true" lazy="false">
+			<key column="subject_id"></key>
+			<one-to-many class="com.tutoring.entity.Question"/>
+		</set>
+		<set name="courses" cascade="all-delete-orphan" inverse="true" lazy="false">
+			<key column="subject_id"></key>
+			<one-to-many class="com.tutoring.entity.Course"/>
+		</set>
+		<set name="tutors" cascade="save-update" inverse="true" lazy="false" table="specialty">
+			<key column="subject_id"></key>
+			<many-to-many class="com.tutoring.entity.Tutor" column="tutor_id"/>
+		</set>
+
+    </class>
+</hibernate-mapping>

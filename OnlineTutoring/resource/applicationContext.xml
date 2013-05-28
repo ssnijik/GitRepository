@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:aop="http://www.springframework.org/schema/aop"
@@ -23,6 +23,99 @@
             </list>
         </property>
     </bean>
+
+	<!-- 自定义资源文件 -->
+
+	<bean id="userDAO" class="com.test.spring.UserDaoImpl">
+	</bean>
+	
+	<bean id="userBiz" class="com.test.spring.UserBizImpl">
+		<property name="userDAO" ref="userDAO"></property>
+	</bean>
+
+	<bean id="UserDAO" class="com.tutoring.dao.UserDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
+	<bean id="UserBiz" class="com.tutoring.biz.UserBizImpl">
+		<property name="userDAO" ref="UserDAO"></property>
+		
+	
+	</bean>
+
+	<bean id="QuestionDAO" class="com.tutoring.dao.QuestionDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="SubjectDAO" class="com.tutoring.dao.SubjectDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="AnswerDAO" class="com.tutoring.dao.AnswerDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="PageDAO" class="com.tutoring.dao.PageDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="TopicBiz" class="com.tutoring.biz.TopicBizImpl">
+		<property name="questionDAO" ref="QuestionDAO"></property>
+		<property name="userDAO" ref="UserDAO"></property>
+		<property name="subjectDAO" ref="SubjectDAO"></property>
+		<property name="answerDAO" ref="AnswerDAO"></property>
+		<property name="pageDAO" ref="PageDAO"></property>
+	</bean>
+	
+	<bean id="StudentDAO" class="com.tutoring.dao.StudentDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	
+
+	<bean id="loginAction" class="com.tutoring.action.LoginAction" scope="prototype">
+		<property name="userBiz" ref="UserBiz"></property>
+	</bean>
+	<bean id="registerAction" class="com.tutoring.action.RegisterAction" scope="prototype">
+		<property name="userBiz" ref="UserBiz"></property>
+	</bean>
+	
+	<bean id="deleteTopicAction" class="com.tutoring.action.DeleteTopicAction" scope="prototype">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="launchTopicAction" class="com.tutoring.action.LaunchTopicAction" scope="prototype">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="makeCommentAction" class="com.tutoring.action.MakeCommentAction" scope="prototype">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="downloadAction" class="com.tutoring.action.DownloadAction">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="indexAction" class="com.tutoring.action.IndexAction"></bean>
+	
+	<bean id="allTopicsAction" class="com.tutoring.action.AllTopicsAction" scope="prototype">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="myTopicsAction" class="com.tutoring.action.MyTopicsAction" scope="prototype">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="makeTopicAction" class="com.tutoring.action.MakeTopicAction"></bean>
+	
+	<bean id="chattingAction" class="com.tutoring.action.ChattingAction"></bean>
+	
+	<bean id="topicDetailAction" class="com.tutoring.action.TopicDetailAction">
+		<property name="topicBiz" ref="TopicBiz"></property>
+	</bean>
+	
+	<bean id="searchAction" class="com.tutoring.action.SearchAction"></bean>
 
  
     <!-- 国际化的消息资源文件 -->

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.tutoring.entity.Course" table="course">
+        <id name="id" column="id" type="int">
+            <generator class="native"/>
+        </id>
+     
+     	<property name="startTime" column="start_time" type="date" not-null="true"/>
+     	<property name="endTime" column="end_time" type="date" not-null="true"/>
+     	<property name="duration" column="duration" type="int" not-null="true"/>
+     	<property name="price" column="price" type="int" not-null="true"/>
+        <property name="name" column="name" type="string" length="45" not-null="true"/>
+        <property name="description" column="description" type="string" length="1000" not-null="true"/>
+     	<property name="ebta" column="eval_by_tutor_a" type="int" not-null="true"/>
+     	<property name="ebtb" column="eval_by_tutor_b" type="int" not-null="true"/>
+     	<property name="ebtc" column="eval_by_tutor_c" type="int" not-null="true"/>
+     	<property name="ebsa" column="eval_by_stu_a" type="int" not-null="true"/>
+     	<property name="ebsb" column="eval_by_stu_b" type="int" not-null="true"/>
+     	<property name="ebsc" column="eval_by_stu_c" type="int" not-null="true"/>
+     	<property name="evaluation" column="evaluation" type="string" length="1000"/>
+     	
+		
+		<many-to-one name="student" column="student_id" class="com.tutoring.entity.Student" cascade="save-update"></many-to-one>
+		<many-to-one name="tutor" column="tutor_id" class="com.tutoring.entity.Tutor" cascade="save-update" not-null="true"></many-to-one>
+		<many-to-one name="subject" column="subject_id" class="com.tutoring.entity.Subject" cascade="save-update" not-null="true"></many-to-one>
+		
+		<set name="applications" cascade="save-update" inverse="true" lazy="false" table="application">
+			<key column="course_id"></key>
+			<many-to-many class="com.tutoring.entity.Student" column="student_id"/>
+		</set>
+		
+
+    </class>
+</hibernate-mapping>

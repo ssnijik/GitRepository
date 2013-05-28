@@ -4,7 +4,7 @@
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-	<class name="com.onlinetutoring.domain.Tutor" table="tutor">
+	<class name="com.tutoring.entity.Tutor" table="tutor">
         <id name="id" column="id" type="int">
             <generator class="native"/>
         </id>
@@ -12,15 +12,15 @@
         <property name="balance" column="balance" type="int"/>
         <property name="description" column="description" type="string" length="1000"/>
 		
-		<many-to-one name="user" unique="true" column="user_id" class="com.onlinetutoring.domain.User" cascade="all-delete-orphan" lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="user" unique="true" column="user_id" class="com.tutoring.entity.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
 		
-		<set name="courses" cascade="all-delete-orphan" inverse="true" lazy="true">
+		<set name="courses" cascade="all-delete-orphan" inverse="true" lazy="false">
 			<key column="tutor_id"></key>
-			<one-to-many class="com.onlinetutoring.domain.Course"/>
+			<one-to-many class="com.tutoring.entity.Course"/>
 		</set>
-		<set name="subjects" cascade="save-update" inverse="false" lazy="true" table="specialty">
+		<set name="subjects" cascade="save-update" inverse="false" lazy="false" table="specialty">
 			<key column="tutor_id"></key>
-			<many-to-many class="com.onlinetutoring.domain.Subject" column="subject_id"/>
+			<many-to-many class="com.tutoring.entity.Subject" column="subject_id"/>
 		</set>
 
     </class>
