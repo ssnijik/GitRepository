@@ -21,6 +21,7 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Example;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,9 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> i
     private final String HQL_COUNT_ALL;
     private final String HQL_OPTIMIZE_PRE_LIST_ALL;
     private final String HQL_OPTIMIZE_NEXT_LIST_ALL;
+    private final String HQL_WHERE_LIST_ALL;
+    private final String HQL_ORDER_BY;
+    
     private String pkName = null;
 
     @SuppressWarnings("unchecked")
@@ -65,6 +69,8 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> i
         HQL_OPTIMIZE_PRE_LIST_ALL = "from " + this.entityClass.getSimpleName() + " where " + pkName + " > ? order by " + pkName + " asc";
         HQL_OPTIMIZE_NEXT_LIST_ALL = "from " + this.entityClass.getSimpleName() + " where " + pkName + " < ? order by " + pkName + " desc";
         HQL_COUNT_ALL = " select count(*) from " + this.entityClass.getSimpleName();
+        HQL_WHERE_LIST_ALL = "from " + this.entityClass.getSimpleName()+ " as model where ";
+        HQL_ORDER_BY = " order by " + pkName + " desc";
     }
         
     @Autowired
@@ -117,7 +123,8 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> i
         return get(id) != null;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public M get(PK id) {
         return (M) getSession().get(this.entityClass, id);
     }
@@ -137,6 +144,11 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> i
     @Override
     public List<M> listAll(int pn, int pageSize) {
         return list(HQL_LIST_ALL, pn, pageSize, new Object[]{});
+    }
+    
+    @Override
+    public List<M> listAll(int pn, int pageSize, String condition) {
+        return list(HQL_WHERE_LIST_ALL + condition + HQL_ORDER_BY, pn, pageSize, new Object[]{});
     }
     
     @Override
@@ -367,5 +379,22 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable> i
         }
     }
 
+
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<M> queryByCriteria(Object example) {
+		return getSession().createCriteria(example.getClass()).add(Example.create(example)).list();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public M queryByCriteriaUnique(Object example) {
+		return (M) getSession().createCriteria(example.getClass()).add(Example.create(example)).uniqueResult();
+	}
+
+    
         
 }

@@ -41,18 +41,6 @@ public class Notification  extends AbstractModel {
 		this.user = user;
 	}
 
-	/**
-	 * @param notification_id
-	 * @param time
-	 * @param type
-	 * @param user
-	 */
-	public Notification(int notification_id, Date time, int type, User user) {
-		this.notification_id = notification_id;
-		this.time = time;
-		this.type = type;
-		this.user = user;
-	}
 
 	/**
 	 * @return the id

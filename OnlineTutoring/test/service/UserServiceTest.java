@@ -90,13 +90,25 @@ AtomicInteger counter = new AtomicInteger();
         assertThat(userList, hasItem(user));
     }
     
+    @Test
+    public void testGetUser() {
+        
+        User u = userService.save(genRandomUser());
+        
+        boolean b = userService.isUserExist("zhang@sishuok.com");
+        
+        System.out.println(userService.isUserExist("zhang@sishuok.com"));
+
+        assertEquals(b, true);
+    }
+    
     
     public User genRandomUser() {
         long randomKey = System.nanoTime() + counter.addAndGet(1);
         User user = new User();
         user.setFirstName("ni" + randomKey);
         user.setLastName("mei" + randomKey);
-        user.setEmail("zhang" + randomKey + "@sishuok.com");
+        user.setEmail("zhang@sishuok.com");
         user.setPassword("123456");
 //        user.setType('s');
         return user;

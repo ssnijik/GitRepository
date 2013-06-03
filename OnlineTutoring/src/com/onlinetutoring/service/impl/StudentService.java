@@ -23,13 +23,13 @@ import com.onlinetutoring.service.IStudentService;
 public class StudentService extends BaseService<Student, Integer> implements IStudentService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
-	private IStudentDao iStudentDao;
+	private IStudentDao studentDao;
 
     @Autowired
     @Qualifier("studentDao")
     @Override
-    public void setBaseDao(IBaseDao<Student, Integer> iStudentDao) {
-        this.baseDao = iStudentDao;
-        this.iStudentDao = (IStudentDao) iStudentDao;
+    public void setBaseDao(IBaseDao<Student, Integer> studentDao) {
+        this.baseDao = studentDao;
+        this.studentDao = (IStudentDao) studentDao;
     }
 }

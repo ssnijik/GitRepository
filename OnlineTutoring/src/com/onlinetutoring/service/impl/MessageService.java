@@ -23,13 +23,13 @@ import com.onlinetutoring.service.IMessageService;
 public class MessageService extends BaseService<Message, Integer> implements IMessageService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MessageService.class);
-	private IMessageDao iMessageDao;
+	private IMessageDao messageDao;
 
     @Autowired
     @Qualifier("messageDao")
     @Override
-    public void setBaseDao(IBaseDao<Message, Integer> iMessageDao) {
-        this.baseDao = iMessageDao;
-        this.iMessageDao = (IMessageDao) iMessageDao;
+    public void setBaseDao(IBaseDao<Message, Integer> messageDao) {
+        this.baseDao = messageDao;
+        this.messageDao = (IMessageDao) messageDao;
     }
 }

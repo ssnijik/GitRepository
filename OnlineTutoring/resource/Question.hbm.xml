@@ -22,9 +22,10 @@
         </property>
         <property name="picture" column="pic_sn" type="string" length="10"/>
         <property name="attachment" column="attachment_sn" type="string" length="10"/>
+        <property name="attachname" column="attach_name" type="string" length="300"/>
 		
 		<many-to-one name="user" column="user_id" class="com.onlinetutoring.domain.User" cascade="save-update" lazy="false" not-null="true"></many-to-one>
-		<many-to-one name="subject" column="subject_id" class="com.onlinetutoring.domain.Subject" lazy="false" cascade="save-update" not-null="true"></many-to-one>
+		<many-to-one name="subject" column="subject_id" class="com.onlinetutoring.domain.Subject" cascade="save-update" lazy="false" not-null="true"></many-to-one>
 		
 		<set name="answers" cascade="all-delete-orphan" inverse="true" lazy="true">
 			<key column="question_id"></key>

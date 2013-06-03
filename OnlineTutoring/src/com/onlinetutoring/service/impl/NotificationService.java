@@ -23,13 +23,13 @@ import com.onlinetutoring.service.INotificationService;
 public class NotificationService extends BaseService<Notification, Integer> implements INotificationService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationService.class);
-	private INotificationDao iNotificationDao;
+	private INotificationDao notificationDao;
 
     @Autowired
     @Qualifier("notificationDao")
     @Override
-    public void setBaseDao(IBaseDao<Notification, Integer> iNotificationDao) {
-        this.baseDao = iNotificationDao;
-        this.iNotificationDao = (INotificationDao) iNotificationDao;
+    public void setBaseDao(IBaseDao<Notification, Integer> notificationDao) {
+        this.baseDao = notificationDao;
+        this.notificationDao = (INotificationDao) notificationDao;
     }
 }

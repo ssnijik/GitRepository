@@ -136,11 +136,11 @@ AtomicInteger counter = new AtomicInteger();
 
         int beforeDbCount = answerService.countAll();
         
-        subjectService.save(subject);
-        User deletedUser = userService.save(user);
-        Answer deletedAnswer = deletedUser.getAnswers().iterator().next();
-        
-        answerService.delete(deletedAnswer.getId());
+//        subjectService.save(subject);
+//        User deletedUser = userService.save(user);
+//        Answer deletedAnswer = deletedUser.getAnswers().iterator().next();
+//        
+//        answerService.delete(deletedAnswer.getId());
         
         int afterDbCount = answerService.countAll();
         

@@ -43,18 +43,17 @@ public class Answer  extends AbstractModel {
 		this.question = question;
 	}
 
+
+
 	/**
 	 * @param user
 	 * @param content
-	 * @param time
 	 * @param picture
 	 * @param question
 	 */
-	public Answer(User user, String content, Date time, String picture,
-			Question question) {
+	public Answer(User user, String content, String picture, Question question) {
 		this.user = user;
 		this.content = content;
-		this.time = time;
 		this.picture = picture;
 		this.question = question;
 	}

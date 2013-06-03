@@ -23,13 +23,13 @@ import com.onlinetutoring.service.ISubjectService;
 public class SubjectService extends BaseService<Subject, Integer> implements ISubjectService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SubjectService.class);
-	private ISubjectDao iSubjectDao;
+	private ISubjectDao subjectDao;
 
     @Autowired
     @Qualifier("subjectDao")
     @Override
-    public void setBaseDao(IBaseDao<Subject, Integer> iSubjectDao) {
-        this.baseDao = iSubjectDao;
-        this.iSubjectDao = (ISubjectDao) iSubjectDao;
+    public void setBaseDao(IBaseDao<Subject, Integer> subjectDao) {
+        this.baseDao = subjectDao;
+        this.subjectDao = (ISubjectDao) subjectDao;
     }
 }

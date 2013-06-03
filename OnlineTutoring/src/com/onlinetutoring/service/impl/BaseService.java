@@ -23,7 +23,7 @@ public abstract class BaseService<M extends Serializable, PK extends Serializabl
     public abstract void setBaseDao(IBaseDao<M, PK> baseDao);
     
 
-    @Override
+	@Override
     public M save(M model) {
         baseDao.save(model);
         return model;

@@ -9,6 +9,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
@@ -54,8 +55,6 @@ AtomicInteger counter = new AtomicInteger();
         
         int beforeDbCount = messageService.countAll();
         
-//        userService.save(sender);
-//        userService.save(receiver);
         messageService.save(genRandomMessage());
         
         int afterDbCount = messageService.countAll();

@@ -23,13 +23,13 @@ import com.onlinetutoring.service.ICourseService;
 public class CourseService extends BaseService<Course, Integer> implements ICourseService{
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CourseService.class);
-	private ICourseDao iCourseDao;
+	private ICourseDao courseDao;
 
     @Autowired
     @Qualifier("courseDao")
     @Override
-    public void setBaseDao(IBaseDao<Course, Integer> iCourseDao) {
-        this.baseDao = iCourseDao;
-        this.iCourseDao = (ICourseDao) iCourseDao;
+    public void setBaseDao(IBaseDao<Course, Integer> courseDao) {
+        this.baseDao = courseDao;
+        this.courseDao = (ICourseDao) courseDao;
     }
 }
