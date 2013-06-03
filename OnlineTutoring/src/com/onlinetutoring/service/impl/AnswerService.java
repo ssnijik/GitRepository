@@ -5,6 +5,7 @@ package com.onlinetutoring.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import com.onlinetutoring.domain.Question;
 import com.onlinetutoring.domain.Subject;
 import com.onlinetutoring.domain.User;
 import com.onlinetutoring.service.IAnswerService;
+import com.opensymphony.xwork2.ActionContext;
 
 /**
  * @author Ssn
@@ -50,25 +52,26 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 	@Qualifier("questionDao")
 	private IQuestionDao questionDao;
 
-	public boolean addAnswer(String useremail, String content,
-			 String pic_sn, int questionid) {
+	@Override
+	public boolean addAnswer(String useremail, String content, int questionid,
+			String pic_sn) {
 
 		User queryUser = new User();
 		queryUser.setEmail(useremail);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		Question question = questionDao.get(questionid);
-		
+
 		Answer answer = new Answer(user, content, pic_sn, question);
-		if(answerDao.save(answer) != null){
-			question.setReply(question.getReply()+1);
+		if (answerDao.save(answer) != null) {
+			question.setReply(question.getReply() + 1);
 			questionDao.update(question);
 			return true;
 		}
 		return false;
 
 	}
-
+	@Override
 	public List<Answer> getAnswers(String email) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -76,9 +79,56 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 
 		return new ArrayList<Answer>(user.getAnswers());
 	}
-
+	@Override
 	public Answer getAnswerById(int id) {
 		return answerDao.get(id);
+	}
+	@Override
+	public List<Answer> getAnswers(int topicid) {
+		return new ArrayList<Answer>(questionDao.get(topicid).getAnswers());
+	}
+	@Override
+	public List<Answer> getAnswers() {
+		ActionContext ac = ActionContext.getContext();
+		Map<String, Object> session = ac.getSession();
+		String email = (String) session.get("email");
+
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+
+		return new ArrayList<Answer>(user.getAnswers());
+	}
+	@Override
+	public int getMyAnswerPageCount(int pageSize) {
+		ActionContext ac = ActionContext.getContext();
+		Map<String, Object> session = ac.getSession();
+		String email = (String) session.get("email");
+
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+
+		int countAll = user.getAnswers().size();
+		int countPage = countAll / pageSize;
+		return countAll % pageSize == 0 ? countPage : countPage + 1;
+	}
+	@Override
+	public List<Answer> getMyAnswersByPage(int pageNumber, int pageSize) {
+		ActionContext ac = ActionContext.getContext();
+		Map<String, Object> session = ac.getSession();
+		String email = (String) session.get("email");
+
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+
+		return answerDao.listAll(pageNumber, pageSize,
+				"model.user.id=" + user.getId());
+	}
+	@Override
+	public void deleteAnswer(int id) {
+		answerDao.delete(id);
 	}
 
 }

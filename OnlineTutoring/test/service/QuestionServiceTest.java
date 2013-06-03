@@ -147,7 +147,7 @@ AtomicInteger counter = new AtomicInteger();
 //    }
     
     @Test
-    public void testSaveAnswer() {
+    public void testAddAnswer() {
 
     	int beforeDbCount = answerService.countAll();
     	
