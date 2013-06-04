@@ -30,6 +30,8 @@ public interface IBaseDao<M extends Serializable, PK extends Serializable> {
     public int countAll();
 
     public List<M> listAll();
+    
+    public List<M> listAll(String condition);
 
     public List<M> listAll(int pn, int pageSize);
     
@@ -47,6 +49,8 @@ public interface IBaseDao<M extends Serializable, PK extends Serializable> {
     public List<M> queryByCriteria(Object example);
     
     public M queryByCriteriaUnique(Object example);
+
+	public int update(String condition);
 
 
 }

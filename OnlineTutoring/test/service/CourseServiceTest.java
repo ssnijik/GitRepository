@@ -99,7 +99,7 @@ AtomicInteger counter = new AtomicInteger();
     
     public Course genRandomCourse() {
         user.setTutor(tutor);
-        Course course = new Course(new Date(), new Date(), 2, tutor, 3, "math class", "class for math", subject, 1,1,1,1,1,1);
+        Course course = new Course(new Date(), new Date(), 2, tutor, 3, "math class", "class for math", subject);
         return course;
     }
 }

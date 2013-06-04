@@ -24,6 +24,8 @@ public class Message  extends AbstractModel {
 	private Date time;
 	
 	private String content;
+	
+	private boolean isRead;
 
 	/**
 	 * 
@@ -39,19 +41,6 @@ public class Message  extends AbstractModel {
 	public Message(User sender, User receiver, String content) {
 		this.sender = sender;
 		this.receiver = receiver;
-		this.content = content;
-	}
-
-	/**
-	 * @param sender
-	 * @param receiver
-	 * @param time
-	 * @param content
-	 */
-	public Message(User sender, User receiver, Date time, String content) {
-		this.sender = sender;
-		this.receiver = receiver;
-		this.time = time;
 		this.content = content;
 	}
 
@@ -123,6 +112,20 @@ public class Message  extends AbstractModel {
 	 */
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	/**
+	 * @return the isRead
+	 */
+	public boolean isRead() {
+		return isRead;
+	}
+
+	/**
+	 * @param isRead the isRead to set
+	 */
+	public void setRead(boolean isRead) {
+		this.isRead = isRead;
 	}
 
 	

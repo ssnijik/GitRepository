@@ -206,11 +206,11 @@
             <tx:method name="use*" propagation="REQUIRED"/>
             <!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到-->
             <tx:method name="get*" propagation="REQUIRED" />
-            <tx:method name="count*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="find*" propagation="REQUIRED" read-only="true" />
-            <tx:method name="list*" propagation="REQUIRED" read-only="true" />
+            <tx:method name="count*" propagation="REQUIRED" />
+            <tx:method name="find*" propagation="REQUIRED" />
+            <tx:method name="list*" propagation="REQUIRED" />
             <tx:method name="increase*" propagation="REQUIRED" isolation="SERIALIZABLE" />
-            <tx:method name="*" read-only="true" />
+            <tx:method name="*" />
         </tx:attributes>
     </tx:advice>
     <aop:config expose-proxy="true">

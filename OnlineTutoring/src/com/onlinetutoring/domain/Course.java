@@ -77,8 +77,7 @@ public class Course  extends AbstractModel {
 	 * @param ebsc
 	 */
 	public Course(Date startTime, Date endTime, int duration, Tutor tutor,
-			int price, String name, String description, Subject subject,
-			int ebta, int ebtb, int ebtc, int ebsa, int ebsb, int ebsc) {
+			int price, String name, String description, Subject subject) {
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.duration = duration;
@@ -87,12 +86,6 @@ public class Course  extends AbstractModel {
 		this.name = name;
 		this.description = description;
 		this.subject = subject;
-		this.ebta = ebta;
-		this.ebtb = ebtb;
-		this.ebtc = ebtc;
-		this.ebsa = ebsa;
-		this.ebsb = ebsb;
-		this.ebsc = ebsc;
 	}
 
 	/**

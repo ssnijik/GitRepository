@@ -53,11 +53,11 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 	private IQuestionDao questionDao;
 
 	@Override
-	public boolean addAnswer(String useremail, String content, int questionid,
+	public boolean addAnswer(String email, String content, int questionid,
 			String pic_sn) {
 
 		User queryUser = new User();
-		queryUser.setEmail(useremail);
+		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 
 		Question question = questionDao.get(questionid);
@@ -80,12 +80,12 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		return new ArrayList<Answer>(user.getAnswers());
 	}
 	@Override
-	public Answer getAnswerById(int id) {
-		return answerDao.get(id);
+	public Answer getAnswerById(int answerid) {
+		return answerDao.get(answerid);
 	}
 	@Override
-	public List<Answer> getAnswers(int topicid) {
-		return new ArrayList<Answer>(questionDao.get(topicid).getAnswers());
+	public List<Answer> getAnswers(int questionid) {
+		return new ArrayList<Answer>(questionDao.get(questionid).getAnswers());
 	}
 	@Override
 	public List<Answer> getAnswers() {
@@ -127,8 +127,8 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 				"model.user.id=" + user.getId());
 	}
 	@Override
-	public void deleteAnswer(int id) {
-		answerDao.delete(id);
+	public void deleteAnswer(int answerid) {
+		answerDao.delete(answerid);
 	}
 
 }

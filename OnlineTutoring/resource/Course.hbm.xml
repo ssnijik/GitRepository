@@ -15,12 +15,24 @@
      	<property name="price" column="price" type="int" not-null="true"/>
         <property name="name" column="name" type="string" length="45" not-null="true"/>
         <property name="description" column="description" type="string" length="1000" not-null="true"/>
-     	<property name="ebta" column="eval_by_tutor_a" type="int" not-null="true"/>
-     	<property name="ebtb" column="eval_by_tutor_b" type="int" not-null="true"/>
-     	<property name="ebtc" column="eval_by_tutor_c" type="int" not-null="true"/>
-     	<property name="ebsa" column="eval_by_stu_a" type="int" not-null="true"/>
-     	<property name="ebsb" column="eval_by_stu_b" type="int" not-null="true"/>
-     	<property name="ebsc" column="eval_by_stu_c" type="int" not-null="true"/>
+     	<property name="ebta" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_tutor_a" sql-type="int" default='0'/>
+        </property>
+     	<property name="ebtb" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_tutor_b" sql-type="int" default='0'/>
+        </property>
+        <property name="ebtc" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_tutor_c" sql-type="int" default='0'/>
+        </property>
+        <property name="ebsa" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_stu_a" sql-type="int" default='0'/>
+        </property>
+        <property name="ebsb" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_stu_b" sql-type="int" default='0'/>
+        </property>
+        <property name="ebsc" type="int" not-null="true" generated="insert">
+        	<column name="eval_by_stu_c" sql-type="int" default='0'/>
+        </property>
      	<property name="evaluation" column="evaluation" type="string" length="1000"/>
      	
 		

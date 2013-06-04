@@ -101,18 +101,18 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * @see com.onlinetutoring.service.IQuestionService#getQuestionById(int)
 	 */
 	@Override
-	public Question getQuestionById(int id) {
-		return questionDao.get(id);
+	public Question getQuestionById(int questionid) {
+		return questionDao.get(questionid);
 	}
 
 	/*
 	 * (non-Javadoc) makeComment
 	 */
 	@Override
-	public boolean addAnswer(String useremail, String content, int questionid,
+	public boolean addAnswer(String email, String content, int questionid,
 			String pic_sn) {
 		User queryUser = new User();
-		queryUser.setEmail(useremail);
+		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 
 		Question question = questionDao.get(questionid);
@@ -132,8 +132,8 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * @see com.onlinetutoring.service.IQuestionService#getAnswers(int)
 	 */
 	@Override
-	public List<Answer> getAnswers(int topicid) {
-		return new ArrayList<Answer>(questionDao.get(topicid).getAnswers());
+	public List<Answer> getAnswers(int questionid) {
+		return new ArrayList<Answer>(questionDao.get(questionid).getAnswers());
 	}
 
 	/*
@@ -241,8 +241,8 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * int)
 	 */
 	@Override
-	public int getCommentPageCount(int pageSize, int topicid) {
-		Question question = questionDao.get(topicid);
+	public int getCommentPageCount(int pageSize, int questionid) {
+		Question question = questionDao.get(questionid);
 
 		int countAll = question.getAnswers().size();
 		int countPage = countAll / pageSize;
@@ -256,8 +256,8 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * int, int)
 	 */
 	@Override
-	public List<Answer> getCommentsByPage(int pageNumber, int pageSize, int topicid) {
-		return answerDao.listAll(pageNumber, pageSize, "model.question.id=" + topicid);
+	public List<Answer> getCommentsByPage(int pageNumber, int pageSize, int questionid) {
+		return answerDao.listAll(pageNumber, pageSize, "model.question.id=" + questionid);
 	}
 
 	/*
@@ -266,12 +266,12 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * @see com.onlinetutoring.service.IQuestionService#deleteTopic(int)
 	 */
 	@Override
-	public void deleteTopic(int id) {
-		questionDao.delete(id);
+	public void deleteTopic(int questionid) {
+		questionDao.delete(questionid);
 	}
 	@Override
-	public void increaseView(int id) {
-		Question question = questionDao.get(id);
+	public void increaseView(int questionid) {
+		Question question = questionDao.get(questionid);
 		question.setView(question.getView()+1);
 		questionDao.update(question);
 	}
