@@ -4,10 +4,10 @@
 package com.onlinetutoring.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +80,7 @@ public class QuestionService extends BaseService<Question, Integer> implements
 
 		Question question = new Question(user, title, content, pic_sn,
 				attach_sn, attach_name, subject);
+		question.setAnswers(new HashSet<Answer>());
 		return questionDao.save(question) != null;
 
 	}

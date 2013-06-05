@@ -117,16 +117,17 @@ public class Message  extends AbstractModel {
 	/**
 	 * @return the isRead
 	 */
-	public boolean isRead() {
+	public boolean getIsRead() {
 		return isRead;
 	}
 
 	/**
 	 * @param isRead the isRead to set
 	 */
-	public void setRead(boolean isRead) {
+	public void setIsRead(boolean isRead) {
 		this.isRead = isRead;
 	}
+
 
 	
 }

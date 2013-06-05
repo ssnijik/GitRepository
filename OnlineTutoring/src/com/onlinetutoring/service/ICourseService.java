@@ -49,7 +49,7 @@ public interface ICourseService extends IBaseService<Course, Integer> {
 
 	void addApplication(String email, int courseid);
 
-	void addApplication(int studentid, int courseid);
+//	void addApplication(int studentid, int courseid);
 
 	List<Student> getApplication(int courseid);
 

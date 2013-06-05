@@ -5,6 +5,7 @@ package com.onlinetutoring.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -74,9 +75,13 @@ public class CourseService extends BaseService<Course, Integer> implements
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
+		
+		Course course = new Course(startTime, endTime, duration, user
+				.getTutor(), price, name, description, subject);
+		
+		course.setApplications(new HashSet<Student>());
 
-		return courseDao.save(new Course(startTime, endTime, duration, user
-				.getTutor(), price, name, description, subject)) != null;
+		return courseDao.save(course) != null;
 
 	}
 	@Override
@@ -218,21 +223,29 @@ public class CourseService extends BaseService<Course, Integer> implements
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
 
+		System.out.println("begin\n");
+//		Hibernate.initialize(course.getApplications());
 		course.getApplications().add(student);
+//		System.out.println(course.getApplications().getClass().getSimpleName());
+//		Hibernate.initialize(student.getApplications());
+//		System.out.println(student.getApplications());
 		student.getApplications().add(course);
+//		studentDao.update(student);
 		courseDao.update(course);
+		
+		System.out.println("end\n");
 		notificationDao.save(new Notification(student.getId(), 's', course.getTutor().getUser()));
 	}	
-	@Override
-	public void addApplication(int studentid, int courseid){
-		Student student = studentDao.get(studentid);
-		Course course = courseDao.get(courseid);
-		
-		course.setStudent(student);
-		course.getApplications().clear();
-		courseDao.update(course);
-		notificationDao.save(new Notification(studentid, 's', course.getTutor().getUser()));
-	}
+//	@Override
+//	public void addApplication(int studentid, int courseid){
+//		Student student = studentDao.get(studentid);
+//		Course course = courseDao.get(courseid);
+//		
+//		course.setStudent(student);
+//		course.getApplications().clear();
+//		courseDao.update(course);
+//		notificationDao.save(new Notification(studentid, 's', course.getTutor().getUser()));
+//	}
 	@Override
 	public List<Student> getApplication(int courseid) {
 

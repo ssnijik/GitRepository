@@ -5,6 +5,7 @@ package com.onlinetutoring.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -17,8 +18,13 @@ import org.springframework.stereotype.Service;
 import com.onlinetutoring.dao.IBaseDao;
 import com.onlinetutoring.dao.INotificationDao;
 import com.onlinetutoring.dao.IUserDao;
+import com.onlinetutoring.domain.Answer;
+import com.onlinetutoring.domain.Course;
+import com.onlinetutoring.domain.Message;
 import com.onlinetutoring.domain.Notification;
+import com.onlinetutoring.domain.Question;
 import com.onlinetutoring.domain.Student;
+import com.onlinetutoring.domain.Subject;
 import com.onlinetutoring.domain.Tutor;
 import com.onlinetutoring.domain.User;
 import com.onlinetutoring.service.IUserService;
@@ -80,10 +86,14 @@ public class UserService extends BaseService<User, Integer> implements
 		if (type.equals("tutor")) {
 			t = 't';
 			tutor = new Tutor();
+			tutor.setCourses(new HashSet<Course>());
+			tutor.setSubjects(new HashSet<Subject>());
 			user.setTutor(tutor);
 		} else if (type.equals("student")) {
 			t = 's';
 			student = new Student();
+			student.setApplications(new HashSet<Course>());
+			student.setCourses(new HashSet<Course>());
 			user.setStudent(student);
 		}
 		user.setPassword(password);
@@ -91,6 +101,14 @@ public class UserService extends BaseService<User, Integer> implements
 		user.setType(t);
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
+		
+		user.setAnswers(new HashSet<Answer>());
+		user.setFriendsHaveMe(new HashSet<User>());
+		user.setFriendsIHave(new HashSet<User>());
+		user.setNotifications(new HashSet<Notification>());
+		user.setQuestions(new HashSet<Question>());
+		user.setReceives(new HashSet<Message>());
+		user.setSends(new HashSet<Message>());
 
 		return userDao.save(user) != null;
 	}
