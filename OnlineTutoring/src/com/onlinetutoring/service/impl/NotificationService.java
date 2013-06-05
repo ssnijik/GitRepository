@@ -40,7 +40,7 @@ public class NotificationService extends BaseService<Notification, Integer> impl
         this.baseDao = notificationDao;
         this.notificationDao = (INotificationDao) notificationDao;
     }
-    
+    @Override
     public boolean addNotification(int id, int type, String email){
     	User queryUser = new User();
 		queryUser.setEmail(email);
@@ -48,7 +48,7 @@ public class NotificationService extends BaseService<Notification, Integer> impl
 		
     	return notificationDao.save(new Notification(id, type, user)) != null;
     }
-    
+    @Override
     public List<Notification> getNotification(String email){
     	User queryUser = new User();
 		queryUser.setEmail(email);
@@ -63,7 +63,7 @@ public class NotificationService extends BaseService<Notification, Integer> impl
 		return notificationList;
 		
     }
-    
+    @Override
     public void deleteNotification(String email){
     	User queryUser = new User();
 		queryUser.setEmail(email);

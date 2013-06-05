@@ -26,7 +26,7 @@ public class User  extends AbstractModel {
 	
 	private char type;
 	
-	private int point;
+	private float point;
 	
 	private String picture;
 	
@@ -229,14 +229,14 @@ public class User  extends AbstractModel {
 	/**
 	 * @return the point
 	 */
-	public int getPoint() {
+	public float getPoint() {
 		return point;
 	}
 
 	/**
 	 * @param point the point to set
 	 */
-	public void setPoint(int point) {
+	public void setPoint(float point) {
 		this.point = point;
 	}
 

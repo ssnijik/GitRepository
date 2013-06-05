@@ -17,7 +17,7 @@
         <property name="birthday" column="birthday" type="date"/>
         <property name="cardNumber" column="card_num" type="string" length="16"/>
         <property name="type" column="type" type="char" length="1" not-null="true"/>
-        <property name="point" column="point" type="int"/>
+        <property name="point" column="point" type="float"/>
         <property name="picture" column="head_pic_sn" type="string" length="10"/>
         <property name="school" column="school" type="string" length="20"/>
         <property name="cookie" column="cookie_sn" type="string" length="20"/>

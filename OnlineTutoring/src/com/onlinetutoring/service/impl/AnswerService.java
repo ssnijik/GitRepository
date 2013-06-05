@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 
 import com.onlinetutoring.dao.IAnswerDao;
 import com.onlinetutoring.dao.IBaseDao;
+import com.onlinetutoring.dao.INotificationDao;
 import com.onlinetutoring.dao.IQuestionDao;
 import com.onlinetutoring.dao.IUserDao;
 import com.onlinetutoring.domain.Answer;
+import com.onlinetutoring.domain.Notification;
 import com.onlinetutoring.domain.Question;
 import com.onlinetutoring.domain.Subject;
 import com.onlinetutoring.domain.User;
@@ -44,6 +46,11 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		this.answerDao = (IAnswerDao) answerDao;
 	}
 
+	
+	@Autowired
+	@Qualifier("notificationDao")
+	private INotificationDao notificationDao;
+	
 	@Autowired
 	@Qualifier("userDao")
 	private IUserDao userDao;
@@ -66,6 +73,7 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		if (answerDao.save(answer) != null) {
 			question.setReply(question.getReply() + 1);
 			questionDao.update(question);
+			notificationDao.save(new Notification(answer.getId(), 'a', question.getUser()));
 			return true;
 		}
 		return false;

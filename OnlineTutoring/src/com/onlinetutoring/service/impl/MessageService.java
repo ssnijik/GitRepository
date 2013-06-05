@@ -48,7 +48,7 @@ public class MessageService extends BaseService<Message, Integer> implements
 		this.baseDao = messageDao;
 		this.messageDao = (IMessageDao) messageDao;
 	}
-
+	@Override
 	public boolean addMessage(String senderEmail, String receiverEmail,
 			String content) {
 		User querySender = new User();
@@ -61,13 +61,13 @@ public class MessageService extends BaseService<Message, Integer> implements
 		
 		Message message = new Message(sender, receiver, content);
 		if(messageDao.save(message) != null){
-			notificationDao.save(new Notification(message.getId(), 'm', receiver));
+//			notificationDao.save(new Notification(message.getId(), 'm', receiver));
 			return true;
 		}
 		return false;
 
 	}
-
+	@Override
 	public List<Message> getMessageToMe(String receiverEmail) {
 
 		User queryReceiver = new User();
@@ -76,7 +76,7 @@ public class MessageService extends BaseService<Message, Integer> implements
 		
 		return new ArrayList<Message>(receiver.getReceives());
 	}
-
+	@Override
 	public List<Message> getMessageFromMe(String senderEmail) {
 
 		User querySender = new User();
@@ -85,11 +85,11 @@ public class MessageService extends BaseService<Message, Integer> implements
 		
 		return new ArrayList<Message>(sender.getReceives());
 	}
-
+	@Override
 	public void deleteMessage(int messageid) {
 		messageDao.delete(messageid);
 	}
-
+	@Override
 	public List<Message> getMessage(String senderEmail, String receiverEmail) {
 		User querySender = new User();
 		querySender.setEmail(senderEmail);
@@ -119,7 +119,7 @@ public class MessageService extends BaseService<Message, Integer> implements
 		return messageList;
 
 	}
-
+	@Override
 	public List<Message> getMessageBypage(String senderEmail,
 			String receiverEmail, int pageNumber, int pageSize) {
 		User querySender = new User();

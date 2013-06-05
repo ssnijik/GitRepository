@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 
 import com.onlinetutoring.dao.IAnswerDao;
 import com.onlinetutoring.dao.IBaseDao;
+import com.onlinetutoring.dao.INotificationDao;
 import com.onlinetutoring.dao.IQuestionDao;
 import com.onlinetutoring.dao.ISubjectDao;
 import com.onlinetutoring.dao.IUserDao;
 import com.onlinetutoring.domain.Answer;
+import com.onlinetutoring.domain.Notification;
 import com.onlinetutoring.domain.Question;
 import com.onlinetutoring.domain.Subject;
 import com.onlinetutoring.domain.User;
@@ -37,6 +39,10 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(QuestionService.class);
 	private IQuestionDao questionDao;
+	
+	@Autowired
+	@Qualifier("notificationDao")
+	private INotificationDao notificationDao;
 
 	@Autowired
 	@Qualifier("questionDao")
@@ -62,14 +68,14 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 * (non-Javadoc) publishQuestion
 	 */
 	@Override
-	public boolean addQuestion(String useremail, String title, String content,
+	public boolean addQuestion(String email, String title, String content,
 			String name, String pic_sn, String attach_sn, String attach_name) {
 		Subject querySubject = new Subject();
 		querySubject.setName(name);
 		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
 
 		User queryUser = new User();
-		queryUser.setEmail(useremail);
+		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 
 		Question question = new Question(user, title, content, pic_sn,
@@ -121,6 +127,7 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		if(answerDao.save(answer) != null){
 			question.setReply(question.getReply()+1);
 			questionDao.update(question);
+			notificationDao.save(new Notification(answer.getId(), 'a', question.getUser()));
 			return true;
 		}
 		return false;

@@ -15,10 +15,12 @@ import org.springframework.stereotype.Service;
 
 import com.onlinetutoring.dao.IBaseDao;
 import com.onlinetutoring.dao.ICourseDao;
+import com.onlinetutoring.dao.INotificationDao;
 import com.onlinetutoring.dao.IStudentDao;
 import com.onlinetutoring.dao.ISubjectDao;
 import com.onlinetutoring.dao.IUserDao;
 import com.onlinetutoring.domain.Course;
+import com.onlinetutoring.domain.Notification;
 import com.onlinetutoring.domain.Student;
 import com.onlinetutoring.domain.Subject;
 import com.onlinetutoring.domain.Tutor;
@@ -36,6 +38,10 @@ public class CourseService extends BaseService<Course, Integer> implements
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(CourseService.class);
 	private ICourseDao courseDao;
+	
+	@Autowired
+	@Qualifier("notificationDao")
+	private INotificationDao notificationDao;
 
 	@Autowired
 	@Qualifier("subjectDao")
@@ -56,7 +62,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		this.baseDao = courseDao;
 		this.courseDao = (ICourseDao) courseDao;
 	}
-
+	@Override
 	public boolean addCourse(Date startTime, Date endTime, int duration,
 			String email, int price, String name, String description,
 			String subjectName) {
@@ -73,12 +79,12 @@ public class CourseService extends BaseService<Course, Integer> implements
 				.getTutor(), price, name, description, subject)) != null;
 
 	}
-
+	@Override
 	public void deleteCourse(int courseid) {
 		courseDao.delete(courseid);
 	}
 
-
+	@Override
 	public void updateCourse(int courseid, Date startTime, Date endTime,
 			int duration, int price, String name, String description,
 			String subjectName) {
@@ -98,7 +104,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 
 		courseDao.update(course);
 	}
-
+	@Override
 	public void updateRemark(int courseid, int ebta, int ebtb, int ebtc, int ebsa,
 			int ebsb, int ebsc, String evaluation) {
 
@@ -113,29 +119,29 @@ public class CourseService extends BaseService<Course, Integer> implements
 		
 		courseDao.update(course);
 	}
-
+	@Override
 	public Course getCourse(int courseid) {
 
 		return courseDao.get(courseid);
 	}
-	
+	@Override
 	public List<Course> getCourses(){
 		
 		return new ArrayList<Course>(courseDao.listAll());
 	}
-	
+	@Override
 	public int getCoursePageCount(int pageSize){
 		int countAll = courseDao.countAll();
 		int countPage = countAll / pageSize;
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
-	
+	@Override
 	public List<Course> getCourse(int pageNumber, int pageSize){
 		return courseDao.listAll(pageNumber, pageSize);
 	}
 	
 	
-	
+	@Override
 	public List<Course> getCoursesByTutor(String email){
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -144,7 +150,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		
 		return new ArrayList<Course>(tutor.getCourses());
 	}
-	
+	@Override
 	public int getCoursesByTutorPageCount(String email, int pageSize){
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -155,7 +161,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		int countPage = countAll / pageSize;
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
-	
+	@Override
 	public List<Course> getCoursesByTutor(String email, int pageNumber, int pageSize){
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -166,7 +172,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		
 		return courseList;
 	}
-	
+	@Override
 	public List<Course> getCoursesBySubject(String subjectName){
 		Subject querySubject = new Subject();
 		querySubject.setName(subjectName);
@@ -174,7 +180,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		
 		return new ArrayList<Course>(subject.getCourses());
 	}
-	
+	@Override
 	public int getCoursesBySubjectPageCount(String subjectName, int pageSize){
 		Subject querySubject = new Subject();
 		querySubject.setName(subjectName);
@@ -185,6 +191,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
 	
+	@Override
 	public List<Course> getCoursesBySubject(String subjectName, int pageNumber, int pageSize){
 		Subject querySubject = new Subject();
 		querySubject.setName(subjectName);
@@ -195,6 +202,14 @@ public class CourseService extends BaseService<Course, Integer> implements
 		return courseList;
 	}
 
+	//TODO
+//	public int getCoursesByStartTime(){
+//		
+//	}
+	
+	
+	
+	@Override
 	public void addApplication(String email, int courseid) {
 		Course course = courseDao.get(courseid);
 
@@ -206,15 +221,26 @@ public class CourseService extends BaseService<Course, Integer> implements
 		course.getApplications().add(student);
 		student.getApplications().add(course);
 		courseDao.update(course);
-
+		notificationDao.save(new Notification(student.getId(), 's', course.getTutor().getUser()));
+	}	
+	@Override
+	public void addApplication(int studentid, int courseid){
+		Student student = studentDao.get(studentid);
+		Course course = courseDao.get(courseid);
+		
+		course.setStudent(student);
+		course.getApplications().clear();
+		courseDao.update(course);
+		notificationDao.save(new Notification(studentid, 's', course.getTutor().getUser()));
 	}
+	@Override
 	public List<Student> getApplication(int courseid) {
 
 		Course course = courseDao.get(courseid);
 //		Hibernate.initialize(course.getApplications());
 		return new ArrayList<Student>(course.getApplications());
 	}
-	
+	@Override
 	public List<Course> getApplication(String email) {
 
 		User queryUser = new User();
@@ -225,22 +251,14 @@ public class CourseService extends BaseService<Course, Integer> implements
 //		Hibernate.initialize(student.getApplications());
 		return new ArrayList<Course>(student.getApplications());
 	}
-	
-	public void setApplication(int studentid, int courseid){
-		Student student = studentDao.get(studentid);
-		Course course = courseDao.get(courseid);
-		
-		course.setStudent(student);
-		course.getApplications().clear();
-		courseDao.update(course);
-	}
-	
+
+	@Override
 	public void delApplication(int courseid){
 		Course course = courseDao.get(courseid);
 		course.getApplications().clear();
 		courseDao.update(course);
 	}
-	
+	@Override
 	public void delApplication(String email){
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -250,14 +268,14 @@ public class CourseService extends BaseService<Course, Integer> implements
 		student.getApplications().clear();
 		studentDao.update(student);
 	}
-	
+	@Override
 	public void delStudentApplication(int courseid, int studentid){
 		Course course = courseDao.get(courseid);
 		Student student = studentDao.get(studentid);
 		course.getApplications().remove(student);
 		courseDao.update(course);
 	}
-	
+	@Override
 	public void delCourseApplication(String email, int courseid){
 		Course course = courseDao.get(courseid);
 		User queryUser = new User();
@@ -267,6 +285,15 @@ public class CourseService extends BaseService<Course, Integer> implements
 		
 		student.getApplications().remove(course);
 		studentDao.update(student);
+	}
+	@Override
+	public void addStudent(int courseid, int studentid){
+		Course course = courseDao.get(courseid);
+		Student student = studentDao.get(studentid);
+		course.setStudent(student);
+		course.getApplications().clear();
+		courseDao.update(course);
+		notificationDao.save(new Notification(courseid, 'c', student.getUser()));
 	}
 	
 

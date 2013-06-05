@@ -3,7 +3,9 @@
  */
 package com.onlinetutoring.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -13,7 +15,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.onlinetutoring.dao.IBaseDao;
+import com.onlinetutoring.dao.INotificationDao;
 import com.onlinetutoring.dao.IUserDao;
+import com.onlinetutoring.domain.Notification;
 import com.onlinetutoring.domain.Student;
 import com.onlinetutoring.domain.Tutor;
 import com.onlinetutoring.domain.User;
@@ -32,6 +36,10 @@ public class UserService extends BaseService<User, Integer> implements
 			.getLogger(UserService.class);
 	private IUserDao userDao;
 
+	@Autowired
+	@Qualifier("notificationDao")
+	private INotificationDao notificationDao;
+	
 	@Autowired
 	@Qualifier("userDao")
 	@Override
@@ -110,7 +118,52 @@ public class UserService extends BaseService<User, Integer> implements
 		user.setSchool(school);
 		
 		userDao.update(user);
-
+	}
+	@Override
+	public void addFriend(String email, int userid){
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+		
+		User friend = userDao.get(userid);
+		
+		user.getFriendsHaveMe().add(friend);
+		user.getFriendsIHave().add(friend);
+		friend.getFriendsHaveMe().add(user);
+		friend.getFriendsIHave().add(user);
+		
+		userDao.update(user);
+	}
+	@Override
+	public void delFriend(String email, int userid){
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+		
+		User friend = userDao.get(userid);
+		
+		user.getFriendsHaveMe().remove(friend);
+		user.getFriendsIHave().remove(friend);
+		friend.getFriendsHaveMe().remove(user);
+		friend.getFriendsIHave().remove(user);
+		
+		userDao.update(user);
+	}
+	@Override
+	public List<User> getFriends(String email){
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+		
+		return new ArrayList<User>(user.getFriendsHaveMe());
+	}
+	@Override
+	public void addFriendApplication(String email, int userid){
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+		
+		notificationDao.save(new Notification(userid, 'f', user));
 	}
 
 }
