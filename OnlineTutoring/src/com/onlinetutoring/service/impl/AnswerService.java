@@ -46,11 +46,10 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		this.answerDao = (IAnswerDao) answerDao;
 	}
 
-	
 	@Autowired
 	@Qualifier("notificationDao")
 	private INotificationDao notificationDao;
-	
+
 	@Autowired
 	@Qualifier("userDao")
 	private IUserDao userDao;
@@ -73,12 +72,14 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		if (answerDao.save(answer) != null) {
 			question.setReply(question.getReply() + 1);
 			questionDao.update(question);
-			notificationDao.save(new Notification(answer.getId(), 'a', question.getUser()));
+			notificationDao.save(new Notification(answer.getId(), 'a', question
+					.getUser()));
 			return true;
 		}
 		return false;
 
 	}
+
 	@Override
 	public List<Answer> getAnswers(String email) {
 		User queryUser = new User();
@@ -87,14 +88,39 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 
 		return new ArrayList<Answer>(user.getAnswers());
 	}
+
+	@Override
+	public int getMyAnswerPageCount(String email, int pageSize) {
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+
+		int countAll = user.getAnswers().size();
+		int countPage = countAll / pageSize;
+		return countAll % pageSize == 0 ? countPage : countPage + 1;
+	}
+
+	@Override
+	public List<Answer> getMyAnswersByPage(String email, int pageNumber,
+			int pageSize) {
+		User queryUser = new User();
+		queryUser.setEmail(email);
+		User user = userDao.queryByCriteriaUnique(queryUser);
+
+		return answerDao.listAll(pageNumber, pageSize,
+				"model.user.id=" + user.getId());
+	}
+
 	@Override
 	public Answer getAnswerById(int answerid) {
 		return answerDao.get(answerid);
 	}
+
 	@Override
 	public List<Answer> getAnswers(int questionid) {
 		return new ArrayList<Answer>(questionDao.get(questionid).getAnswers());
 	}
+
 	@Override
 	public List<Answer> getAnswers() {
 		ActionContext ac = ActionContext.getContext();
@@ -107,6 +133,7 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 
 		return new ArrayList<Answer>(user.getAnswers());
 	}
+
 	@Override
 	public int getMyAnswerPageCount(int pageSize) {
 		ActionContext ac = ActionContext.getContext();
@@ -121,6 +148,7 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		int countPage = countAll / pageSize;
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
+
 	@Override
 	public List<Answer> getMyAnswersByPage(int pageNumber, int pageSize) {
 		ActionContext ac = ActionContext.getContext();
@@ -134,6 +162,7 @@ public class AnswerService extends BaseService<Answer, Integer> implements
 		return answerDao.listAll(pageNumber, pageSize,
 				"model.user.id=" + user.getId());
 	}
+
 	@Override
 	public void deleteAnswer(int answerid) {
 		answerDao.delete(answerid);

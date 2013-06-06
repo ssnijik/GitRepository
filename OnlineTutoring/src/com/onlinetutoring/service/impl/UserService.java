@@ -45,7 +45,7 @@ public class UserService extends BaseService<User, Integer> implements
 	@Autowired
 	@Qualifier("notificationDao")
 	private INotificationDao notificationDao;
-	
+
 	@Autowired
 	@Qualifier("userDao")
 	@Override
@@ -101,7 +101,7 @@ public class UserService extends BaseService<User, Integer> implements
 		user.setType(t);
 		user.setFirstName(firstname);
 		user.setLastName(lastname);
-		
+
 		user.setAnswers(new HashSet<Answer>());
 		user.setFriendsHaveMe(new HashSet<User>());
 		user.setFriendsIHave(new HashSet<User>());
@@ -119,6 +119,7 @@ public class UserService extends BaseService<User, Integer> implements
 		user.setEmail(email);
 		return userDao.queryByCriteriaUnique(user) != null;
 	}
+
 	@Override
 	public void updateUser(String password, String email, String firstname,
 			String lastname, String phone, Date birthday, String cardNumber,
@@ -134,61 +135,64 @@ public class UserService extends BaseService<User, Integer> implements
 		user.setCardNumber(cardNumber);
 		user.setPicture(picture);
 		user.setSchool(school);
-		
+
 		userDao.update(user);
 	}
+
 	@Override
-	public void addFriend(String email, int userid){
+	public void addFriend(String email, int userid) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
-//		queryUser.setType((char) 0);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		User friend = userDao.get(userid);
-		
+
 		System.out.println(user);
 		System.out.println(friend);
 		System.out.println(user.getFriendsHaveMe());
 		System.out.println(user.getFriendsIHave());
 		System.out.println(friend.getFriendsHaveMe());
 		System.out.println(friend.getFriendsIHave());
-		
+
 		user.getFriendsHaveMe().add(friend);
 		user.getFriendsIHave().add(friend);
 		friend.getFriendsHaveMe().add(user);
 		friend.getFriendsIHave().add(user);
-		
-//		userDao.update(user);
+
+		// userDao.update(user);
 	}
+
 	@Override
-	public void delFriend(String email, int userid){
+	public void delFriend(String email, int userid) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		User friend = userDao.get(userid);
-		
+
 		user.getFriendsHaveMe().remove(friend);
 		user.getFriendsIHave().remove(friend);
 		friend.getFriendsHaveMe().remove(user);
 		friend.getFriendsIHave().remove(user);
-		
-//		userDao.update(user);
+
+		// userDao.update(user);
 	}
+
 	@Override
-	public List<User> getFriends(String email){
+	public List<User> getFriends(String email) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		return new ArrayList<User>(user.getFriendsHaveMe());
 	}
+
 	@Override
-	public void addFriendApplication(String email, int userid){
+	public void addFriendApplication(String email, int userid) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		notificationDao.save(new Notification(userid, 'f', user));
 	}
 

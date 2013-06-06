@@ -21,56 +21,62 @@ import com.onlinetutoring.service.INotificationService;
 
 /**
  * @author Ssn
- *
+ * 
  */
 @Service("notificationService")
-public class NotificationService extends BaseService<Notification, Integer> implements INotificationService{
+public class NotificationService extends BaseService<Notification, Integer>
+		implements INotificationService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(NotificationService.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(NotificationService.class);
 	private INotificationDao notificationDao;
 
 	@Autowired
 	@Qualifier("userDao")
 	private IUserDao userDao;
-	
-    @Autowired
-    @Qualifier("notificationDao")
-    @Override
-    public void setBaseDao(IBaseDao<Notification, Integer> notificationDao) {
-        this.baseDao = notificationDao;
-        this.notificationDao = (INotificationDao) notificationDao;
-    }
-    @Override
-    public boolean addNotification(int id, int type, String email){
-    	User queryUser = new User();
+
+	@Autowired
+	@Qualifier("notificationDao")
+	@Override
+	public void setBaseDao(IBaseDao<Notification, Integer> notificationDao) {
+		this.baseDao = notificationDao;
+		this.notificationDao = (INotificationDao) notificationDao;
+	}
+
+	@Override
+	public boolean addNotification(int id, int type, String email) {
+		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
-    	return notificationDao.save(new Notification(id, type, user)) != null;
-    }
-    @Override
-    public List<Notification> getNotification(String email){
-    	User queryUser = new User();
+
+		return notificationDao.save(new Notification(id, type, user)) != null;
+	}
+
+	@Override
+	public List<Notification> getNotification(String email) {
+		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
-		List<Notification> notificationList = new ArrayList<Notification>(user.getNotifications());
-		
+
+		List<Notification> notificationList = new ArrayList<Notification>(
+				user.getNotifications());
+
 		user.getNotifications().clear();
-		
-//		userDao.update(user);
-		
+
+		// userDao.update(user);
+
 		return notificationList;
-		
-    }
-    @Override
-    public void deleteNotification(String email){
-    	User queryUser = new User();
+
+	}
+
+	@Override
+	public void deleteNotification(String email) {
+		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
+
 		user.getNotifications().clear();
-		
-//		userDao.update(user);
-    }
+
+		// userDao.update(user);
+	}
 }

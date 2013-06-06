@@ -39,7 +39,7 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(QuestionService.class);
 	private IQuestionDao questionDao;
-	
+
 	@Autowired
 	@Qualifier("notificationDao")
 	private INotificationDao notificationDao;
@@ -82,31 +82,18 @@ public class QuestionService extends BaseService<Question, Integer> implements
 				attach_sn, attach_name, subject);
 		question.setAnswers(new HashSet<Answer>());
 		return questionDao.save(question) != null;
-
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.onlinetutoring.service.IQuestionService#getQuestions(java.lang.String
-	 * )
-	 */
 	@Override
 	public List<Question> getQuestions(String email) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
-		
-//		Hibernate.initialize(user.getQuestions());
+
+		// Hibernate.initialize(user.getQuestions());
 		return new ArrayList<Question>(user.getQuestions());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getQuestionById(int)
-	 */
 	@Override
 	public Question getQuestionById(int questionid) {
 		return questionDao.get(questionid);
@@ -125,30 +112,21 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		Question question = questionDao.get(questionid);
 
 		Answer answer = new Answer(user, content, pic_sn, question);
-		if(answerDao.save(answer) != null){
-			question.setReply(question.getReply()+1);
+		if (answerDao.save(answer) != null) {
+			question.setReply(question.getReply() + 1);
 			questionDao.update(question);
-			notificationDao.save(new Notification(answer.getId(), 'a', question.getUser()));
+			notificationDao.save(new Notification(answer.getId(), 'a', question
+					.getUser()));
 			return true;
 		}
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getAnswers(int)
-	 */
 	@Override
 	public List<Answer> getAnswers(int questionid) {
 		return new ArrayList<Answer>(questionDao.get(questionid).getAnswers());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getMyQuestions()
-	 */
 	@Override
 	public List<Question> getMyQuestions() {
 		ActionContext ac = ActionContext.getContext();
@@ -162,13 +140,6 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		return new ArrayList<Question>(user.getQuestions());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.onlinetutoring.service.IQuestionService#getRealFileName(java.lang
-	 * .String)
-	 */
 	@Override
 	public String getRealFileName(String storename) {
 		Question queryQuestion = new Question();
@@ -178,12 +149,6 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		return question != null ? question.getAttachname() : null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.onlinetutoring.service.IQuestionService#getQuestionPageCount(int)
-	 */
 	@Override
 	public int getQuestionPageCount(int pageSize) {
 		int countAll = questionDao.countAll();
@@ -191,23 +156,11 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getQuestionsByPage(int,
-	 * int)
-	 */
 	@Override
 	public List<Question> getQuestionsByPage(int pageNumber, int pageSize) {
 		return questionDao.listAll(pageNumber, pageSize);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.onlinetutoring.service.IQuestionService#getMyQuestionPageCount(int)
-	 */
 	@Override
 	public int getMyQuestionPageCount(int pageSize) {
 		ActionContext ac = ActionContext.getContext();
@@ -223,11 +176,6 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getMyQuestions(int, int)
-	 */
 	@Override
 	public List<Question> getMyQuestions(int pageNumber, int pageSize) {
 		ActionContext ac = ActionContext.getContext();
@@ -238,16 +186,10 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 
-		return questionDao
-				.listAll(pageNumber, pageSize, "model.user.id = '" + user.getId() + "'");
+		return questionDao.listAll(pageNumber, pageSize, "model.user.id = '"
+				+ user.getId() + "'");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getCommentPageCount(int,
-	 * int)
-	 */
 	@Override
 	public int getCommentPageCount(int pageSize, int questionid) {
 		Question question = questionDao.get(questionid);
@@ -257,30 +199,22 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#getCommentsByPage(int,
-	 * int, int)
-	 */
 	@Override
-	public List<Answer> getCommentsByPage(int pageNumber, int pageSize, int questionid) {
-		return answerDao.listAll(pageNumber, pageSize, "model.question.id = '" + questionid + "'");
+	public List<Answer> getCommentsByPage(int pageNumber, int pageSize,
+			int questionid) {
+		return answerDao.listAll(pageNumber, pageSize, "model.question.id = '"
+				+ questionid + "'");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.onlinetutoring.service.IQuestionService#deleteTopic(int)
-	 */
 	@Override
 	public void deleteTopic(int questionid) {
 		questionDao.delete(questionid);
 	}
+
 	@Override
 	public void increaseView(int questionid) {
 		Question question = questionDao.get(questionid);
-		question.setView(question.getView()+1);
+		question.setView(question.getView() + 1);
 		questionDao.update(question);
 	}
 }

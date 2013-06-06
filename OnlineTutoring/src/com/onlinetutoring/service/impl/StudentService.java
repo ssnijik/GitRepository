@@ -25,34 +25,37 @@ import com.onlinetutoring.service.IStudentService;
 
 /**
  * @author Ssn
- *
+ * 
  */
 @Service("studentService")
-public class StudentService extends BaseService<Student, Integer> implements IStudentService{
+public class StudentService extends BaseService<Student, Integer> implements
+		IStudentService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StudentService.class);
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(StudentService.class);
 	private IStudentDao studentDao;
-	
+
 	@Autowired
 	@Qualifier("userDao")
 	private IUserDao userDao;
-	
+
 	@Autowired
 	@Qualifier("notificationDao")
 	private INotificationDao notificationDao;
-	
+
 	@Autowired
 	@Qualifier("courseDao")
 	private ICourseDao courseDao;
 
-    @Autowired
-    @Qualifier("studentDao")
-    @Override
-    public void setBaseDao(IBaseDao<Student, Integer> studentDao) {
-        this.baseDao = studentDao;
-        this.studentDao = (IStudentDao) studentDao;
-    }
-    @Override
+	@Autowired
+	@Qualifier("studentDao")
+	@Override
+	public void setBaseDao(IBaseDao<Student, Integer> studentDao) {
+		this.baseDao = studentDao;
+		this.studentDao = (IStudentDao) studentDao;
+	}
+
+	@Override
 	public void addApplication(String email, int courseid) {
 		Course course = courseDao.get(courseid);
 
@@ -61,36 +64,40 @@ public class StudentService extends BaseService<Student, Integer> implements ISt
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
 
-//		System.out.println("begin\n");
-//		Hibernate.initialize(course.getApplications());
+		// System.out.println("begin\n");
+		// Hibernate.initialize(course.getApplications());
 		course.getApplications().add(student);
-//		System.out.println(course.getApplications().getClass().getSimpleName());
-//		Hibernate.initialize(student.getApplications());
-//		System.out.println(student.getApplications());
+		// System.out.println(course.getApplications().getClass().getSimpleName());
+		// Hibernate.initialize(student.getApplications());
+		// System.out.println(student.getApplications());
 		student.getApplications().add(course);
-//		studentDao.update(student);
-//		courseDao.update(course);
-		
-//		System.out.println("end\n");
-		notificationDao.save(new Notification(student.getId(), 's', course.getTutor().getUser()));
-	}	
-//	@Override
-//	public void addApplication(int studentid, int courseid){
-//		Student student = studentDao.get(studentid);
-//		Course course = courseDao.get(courseid);
-//		
-//		course.setStudent(student);
-//		course.getApplications().clear();
-//		courseDao.update(course);
-//		notificationDao.save(new Notification(studentid, 's', course.getTutor().getUser()));
-//	}
+		// studentDao.update(student);
+		// courseDao.update(course);
+
+		// System.out.println("end\n");
+		notificationDao.save(new Notification(student.getId(), 's', course
+				.getTutor().getUser()));
+	}
+
+	// @Override
+	// public void addApplication(int studentid, int courseid){
+	// Student student = studentDao.get(studentid);
+	// Course course = courseDao.get(courseid);
+	//
+	// course.setStudent(student);
+	// course.getApplications().clear();
+	// courseDao.update(course);
+	// notificationDao.save(new Notification(studentid, 's',
+	// course.getTutor().getUser()));
+	// }
 	@Override
 	public List<Student> getApplication(int courseid) {
 
 		Course course = courseDao.get(courseid);
-//		Hibernate.initialize(course.getApplications());
+		// Hibernate.initialize(course.getApplications());
 		return new ArrayList<Student>(course.getApplications());
 	}
+
 	@Override
 	public List<Course> getApplication(String email) {
 
@@ -98,62 +105,66 @@ public class StudentService extends BaseService<Student, Integer> implements ISt
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
-		
-//		Hibernate.initialize(student.getApplications());
+
+		// Hibernate.initialize(student.getApplications());
 		return new ArrayList<Course>(student.getApplications());
 	}
 
 	@Override
-	public void delApplication(int courseid){
+	public void delApplication(int courseid) {
 		Course course = courseDao.get(courseid);
-		for(Student s : course.getApplications()){
+		for (Student s : course.getApplications()) {
 			s.getApplications().remove(course);
-//			studentDao.update(s);
+			// studentDao.update(s);
 		}
 		course.getApplications().clear();
-//		courseDao.update(course);
+		// courseDao.update(course);
 	}
+
 	@Override
-	public void delApplication(String email){
+	public void delApplication(String email) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
-		
-		for(Course c : student.getApplications()){
+
+		for (Course c : student.getApplications()) {
 			c.getApplications().remove(student);
-//			studentDao.update(s);
+			// studentDao.update(s);
 		}
 		student.getApplications().clear();
-//		studentDao.update(student);
+		// studentDao.update(student);
 	}
+
 	@Override
-	public void delStudentApplication(int courseid, int studentid){
+	public void delCourseApplication(int courseid, int studentid) {
 		Course course = courseDao.get(courseid);
 		Student student = studentDao.get(studentid);
 		course.getApplications().remove(student);
 		student.getApplications().remove(course);
-//		courseDao.update(course);
+		// courseDao.update(course);
 	}
+
 	@Override
-	public void delCourseApplication(int courseid, String email){
+	public void delCourseApplication(int courseid, String email) {
 		Course course = courseDao.get(courseid);
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
-		
+
 		student.getApplications().remove(course);
 		course.getApplications().remove(student);
-//		studentDao.update(student);
+		// studentDao.update(student);
 	}
+
 	@Override
 	public List<Course> getCourses(String email) {
 		User queryUser = new User();
 		queryUser.setEmail(email);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
-		
+
 		return new ArrayList<Course>(student.getCourses());
 	}
 
