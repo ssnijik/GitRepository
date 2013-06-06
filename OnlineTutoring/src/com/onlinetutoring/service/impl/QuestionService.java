@@ -239,7 +239,7 @@ public class QuestionService extends BaseService<Question, Integer> implements
 		User user = userDao.queryByCriteriaUnique(queryUser);
 
 		return questionDao
-				.listAll(pageNumber, pageSize, "model.user.id=" + user.getId());
+				.listAll(pageNumber, pageSize, "model.user.id = '" + user.getId() + "'");
 	}
 
 	/*
@@ -265,7 +265,7 @@ public class QuestionService extends BaseService<Question, Integer> implements
 	 */
 	@Override
 	public List<Answer> getCommentsByPage(int pageNumber, int pageSize, int questionid) {
-		return answerDao.listAll(pageNumber, pageSize, "model.question.id=" + questionid);
+		return answerDao.listAll(pageNumber, pageSize, "model.question.id = '" + questionid + "'");
 	}
 
 	/*

@@ -173,7 +173,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Tutor tutor = user.getTutor();
 		
-		List<Course> courseList = courseDao.listAll(pageNumber, pageSize, "model.tutor.id=" + tutor.getId());
+		List<Course> courseList = courseDao.listAll(pageNumber, pageSize, "model.tutor.id='" + tutor.getId() + "'");
 		
 		return courseList;
 	}
@@ -202,7 +202,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		querySubject.setName(subjectName);
 		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
 		
-		List<Course> courseList = courseDao.listAll(pageNumber, pageSize, "model.subject.id=" + subject.getId());
+		List<Course> courseList = courseDao.listAll(pageNumber, pageSize, "model.subject.id='" + subject.getId() + "'");
 		
 		return courseList;
 	}

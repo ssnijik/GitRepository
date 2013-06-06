@@ -83,12 +83,8 @@ public class TutorService extends BaseService<Tutor, Integer> implements ITutorS
     }
     @Override
     public List<Tutor> getTutorsBySubject(String subjectName, int pageNumber, int pageSize){
-    	Subject querySubject = new Subject();
-		querySubject.setName(subjectName);
-		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
 		
-		List<Tutor> tutorList = tutorDao.listAllWithHql(pageNumber, pageSize, "select s.tutors as t from Subject where s.id=" + subject.getId() + " order by t.id desc");
-		
+		List<Tutor> tutorList = tutorDao.listAllWithHql(pageNumber, pageSize, "select t from Tutor t join t.subjects s where s.name = '" + subjectName + "' order by t.id desc");
 		return tutorList;
     }
     

@@ -141,16 +141,24 @@ public class UserService extends BaseService<User, Integer> implements
 	public void addFriend(String email, int userid){
 		User queryUser = new User();
 		queryUser.setEmail(email);
+//		queryUser.setType((char) 0);
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		
 		User friend = userDao.get(userid);
+		
+		System.out.println(user);
+		System.out.println(friend);
+		System.out.println(user.getFriendsHaveMe());
+		System.out.println(user.getFriendsIHave());
+		System.out.println(friend.getFriendsHaveMe());
+		System.out.println(friend.getFriendsIHave());
 		
 		user.getFriendsHaveMe().add(friend);
 		user.getFriendsIHave().add(friend);
 		friend.getFriendsHaveMe().add(user);
 		friend.getFriendsIHave().add(user);
 		
-		userDao.update(user);
+//		userDao.update(user);
 	}
 	@Override
 	public void delFriend(String email, int userid){
@@ -165,7 +173,7 @@ public class UserService extends BaseService<User, Integer> implements
 		friend.getFriendsHaveMe().remove(user);
 		friend.getFriendsIHave().remove(user);
 		
-		userDao.update(user);
+//		userDao.update(user);
 	}
 	@Override
 	public List<User> getFriends(String email){

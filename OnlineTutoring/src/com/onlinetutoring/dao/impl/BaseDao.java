@@ -170,9 +170,22 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable>
 				pageSize, new Object[] {});
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<M> listAllWithHql(int pn, int pageSize, String hql) {
-		return list(hql, pn, pageSize, new Object[] {});
+		Query query = getSession().createQuery(hql);
+		if (pn > -1 && pageSize > -1) {
+			query.setMaxResults(pageSize);
+			int start = PageUtil.getPageStart(pn, pageSize);
+			if (start != 0) {
+				query.setFirstResult(start);
+			}
+		}
+		if (pn < 0) {
+			query.setFirstResult(0);
+		}
+		List<M> results = query.list();
+		return results;
 	}
 
 	@Override
@@ -418,14 +431,14 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable>
 	@Override
 	public List<M> queryByCriteria(Object example) {
 		return getSession().createCriteria(example.getClass())
-				.add(Example.create(example)).list();
+				.add(Example.create(example).excludeZeroes()).list();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public M queryByCriteriaUnique(Object example) {
 		return (M) getSession().createCriteria(example.getClass())
-				.add(Example.create(example)).uniqueResult();
+				.add(Example.create(example).excludeZeroes()).uniqueResult();
 	}
 
 }

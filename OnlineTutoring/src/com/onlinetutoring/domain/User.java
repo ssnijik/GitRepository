@@ -24,7 +24,7 @@ public class User  extends AbstractModel {
 	
 	private String cardNumber;
 	
-	private char type;
+	private Character type;
 	
 	private float point;
 	
@@ -215,14 +215,14 @@ public class User  extends AbstractModel {
 	/**
 	 * @return the type
 	 */
-	public char getType() {
+	public Character getType() {
 		return type;
 	}
 
 	/**
 	 * @param type the type to set
 	 */
-	public void setType(char type) {
+	public void setType(Character type) {
 		this.type = type;
 	}
 

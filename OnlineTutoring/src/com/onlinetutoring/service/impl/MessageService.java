@@ -104,10 +104,10 @@ public class MessageService extends BaseService<Message, Integer> implements
 		queryReceiver.setEmail(receiverEmail);
 		User receiver = userDao.queryByCriteriaUnique(queryReceiver);
 		
-		List<Message> messageList = messageDao.listAll("( model.sender.id = "
-				+ sender.getId() + " and model.receiver.id=" + receiver.getId()
-				+ " and isRead = false ) or (model.sender.id=" + receiver.getId()
-				+ " and model.receiver.id = " + sender.getId() + " and isRead = false )");
+		List<Message> messageList = messageDao.listAll("( model.sender.id = '"
+				+ sender.getId() + "' and model.receiver.id= '" + receiver.getId()
+				+ "' and isRead = false ) or (model.sender.id= '" + receiver.getId()
+				+ "' and model.receiver.id = '" + sender.getId() + "' and isRead = false )");
 
 		messageDao.update("set isRead = true where ( model.sender.id="
 				+ sender.getId() + " and model.receiver.id=" + receiver.getId()
@@ -115,10 +115,10 @@ public class MessageService extends BaseService<Message, Integer> implements
 				+ " and model.receiver.id=" + sender.getId() + ")");
 		
 		if(messageList.size() < 3){
-			messageList = messageDao.listAll(1, 3, "( model.sender.id = "
-					+ sender.getId() + " and model.receiver.id=" + receiver.getId()
-					+ " ) or (model.sender.id=" + receiver.getId()
-					+ " and model.receiver.id = " + sender.getId() + " )");
+			messageList = messageDao.listAll(1, 3, "( model.sender.id = '"
+					+ sender.getId() + "' and model.receiver.id= '" + receiver.getId()
+					+ "' ) or (model.sender.id = '" + receiver.getId()
+					+ "' and model.receiver.id = '" + sender.getId() + "' )");
 		}
 		
 		return messageList;
@@ -135,9 +135,9 @@ public class MessageService extends BaseService<Message, Integer> implements
 		queryReceiver.setEmail(receiverEmail);
 		User receiver = userDao.queryByCriteriaUnique(queryReceiver);
 
-		return messageDao.listAll(pageNumber, pageSize, "( model.sender.id=" + sender.getId()
-				+ " and model.receiver.id=" + receiver.getId()
-				+ " ) or ( model.sender.id=" + receiver.getId()
-				+ " and model.receiver.id=" + sender.getId() + " )");
+		return messageDao.listAll(pageNumber, pageSize, "( model.sender.id= '" + sender.getId()
+				+ "' and model.receiver.id = '" + receiver.getId()
+				+ "' ) or ( model.sender.id = '" + receiver.getId()
+				+ "' and model.receiver.id = '" + sender.getId() + "' )");
 	}
 }
