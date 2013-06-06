@@ -168,6 +168,231 @@ AtomicInteger counter = new AtomicInteger();
         assertEquals(2, testCourse.getApplications().size());
     }
     
+    @Test
+    public void testaddStudent() {
+        
+        User user1 = genRandomUser();
+        
+        Subject subject = genRandomSubject();
+
+        User user2 = genRandomUser();
+        
+        Student student = genRandomStudent();
+        
+        student.setUser(user1);
+        user1.setStudent(student);
+        
+        Tutor tutor = genRandomTutor();
+        
+        tutor.setUser(user2);
+        user2.setTutor(tutor);
+        
+        Course course = genRandomCourse();
+        
+        course.setSubject(subject);
+        
+        course.setTutor(tutor);
+        tutor.setCourses(new HashSet<Course>());
+        tutor.getCourses().add(course);
+        
+        course.setApplications(new HashSet<Student>());
+        student.setApplications(new HashSet<Course>());
+        
+        course.getApplications().add(student);
+        student.getApplications().add(course);
+        
+        userService.save(user1);
+        userService.save(user2);
+//        courseService.save(course);
+        
+        User user3 = genRandomUser();
+        Student student1 = genRandomStudent();
+        student1.setApplications(new HashSet<Course>());
+        
+        student1.setUser(user3);
+        user3.setStudent(student1);
+        
+        userService.save(user3);
+        
+        courseService.addApplication(user3.getEmail(), course.getId());
+        
+        courseService.addStudent(course.getId(), student1.getId());
+        
+        Course testCourse = courseService.get(course.getId());
+        
+        System.out.println(student1);
+        
+        assertEquals(0, testCourse.getApplications().size());
+        
+        assertEquals(student1, testCourse.getStudent());
+    }
+    
+    @Test
+    public void testremoveApplication() {
+        
+        User user1 = genRandomUser();
+        
+        Subject subject = genRandomSubject();
+
+        User user2 = genRandomUser();
+        
+        Student student = genRandomStudent();
+        
+        student.setUser(user1);
+        user1.setStudent(student);
+        
+        Tutor tutor = genRandomTutor();
+        
+        tutor.setUser(user2);
+        user2.setTutor(tutor);
+        
+        Course course = genRandomCourse();
+        
+        course.setSubject(subject);
+        
+        course.setTutor(tutor);
+        tutor.setCourses(new HashSet<Course>());
+        tutor.getCourses().add(course);
+        
+        course.setApplications(new HashSet<Student>());
+        student.setApplications(new HashSet<Course>());
+        
+        course.getApplications().add(student);
+        student.getApplications().add(course);
+        
+        userService.save(user1);
+        userService.save(user2);
+//        courseService.save(course);
+        
+        User user3 = genRandomUser();
+        Student student1 = genRandomStudent();
+        student1.setApplications(new HashSet<Course>());
+        
+        student1.setUser(user3);
+        user3.setStudent(student1);
+        
+        userService.save(user3);
+        
+        courseService.addApplication(user3.getEmail(), course.getId());
+        
+        courseService.delCourseApplication(course.getId(), user3.getEmail());
+        
+        assertEquals(1, course.getApplications().size());
+    }
+    
+    
+    @Test
+    public void testdelApplicationAtCourse() {
+        
+        User user1 = genRandomUser();
+        
+        Subject subject = genRandomSubject();
+
+        User user2 = genRandomUser();
+        
+        Student student = genRandomStudent();
+        
+        student.setUser(user1);
+        user1.setStudent(student);
+        
+        Tutor tutor = genRandomTutor();
+        
+        tutor.setUser(user2);
+        user2.setTutor(tutor);
+        
+        Course course = genRandomCourse();
+        
+        course.setSubject(subject);
+        
+        course.setTutor(tutor);
+        tutor.setCourses(new HashSet<Course>());
+        tutor.getCourses().add(course);
+        
+        course.setApplications(new HashSet<Student>());
+        student.setApplications(new HashSet<Course>());
+        
+        course.getApplications().add(student);
+        student.getApplications().add(course);
+        
+        userService.save(user1);
+        userService.save(user2);
+//        courseService.save(course);
+        
+        User user3 = genRandomUser();
+        Student student1 = genRandomStudent();
+        student1.setApplications(new HashSet<Course>());
+        
+        student1.setUser(user3);
+        user3.setStudent(student1);
+        
+        userService.save(user3);
+        
+        courseService.addApplication(user3.getEmail(), course.getId());
+        
+        courseService.delApplication(course.getId());
+        
+        assertEquals(0, course.getApplications().size());
+        
+        assertEquals(0, student1.getApplications().size());
+    }
+    
+    @Test
+    public void testdelApplicationAtStudent() {
+        
+        User user1 = genRandomUser();
+        
+        Subject subject = genRandomSubject();
+
+        User user2 = genRandomUser();
+        
+        Student student = genRandomStudent();
+        
+        student.setUser(user1);
+        user1.setStudent(student);
+        
+        Tutor tutor = genRandomTutor();
+        
+        tutor.setUser(user2);
+        user2.setTutor(tutor);
+        
+        Course course = genRandomCourse();
+        
+        course.setSubject(subject);
+        
+        course.setTutor(tutor);
+        tutor.setCourses(new HashSet<Course>());
+        tutor.getCourses().add(course);
+        
+        course.setApplications(new HashSet<Student>());
+        student.setApplications(new HashSet<Course>());
+        
+        course.getApplications().add(student);
+        student.getApplications().add(course);
+        
+        userService.save(user1);
+        userService.save(user2);
+//        courseService.save(course);
+        
+        User user3 = genRandomUser();
+        Student student1 = genRandomStudent();
+        student1.setApplications(new HashSet<Course>());
+        
+        student1.setUser(user3);
+        user3.setStudent(student1);
+        
+        userService.save(user3);
+        
+        courseService.addApplication(user3.getEmail(), course.getId());
+        
+        courseService.delApplication(user3.getEmail());
+        
+        assertEquals(1, course.getApplications().size());
+        
+        assertEquals(0, student1.getApplications().size());
+    }
+    
+    
+    
     
     public Course genRandomCourse() {
     	long randomKey = System.nanoTime() + counter.addAndGet(1);

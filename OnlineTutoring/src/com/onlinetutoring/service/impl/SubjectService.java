@@ -52,7 +52,7 @@ public class SubjectService extends BaseService<Subject, Integer> implements ISu
 		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
 		
 		subject.setName(subjectName);
-		subjectDao.update(subjectName);
+		subjectDao.update(subject);
     }
     @Override
     public void delSubject(String subjectName){

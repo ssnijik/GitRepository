@@ -141,7 +141,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		return countAll % pageSize == 0 ? countPage : countPage + 1;
 	}
 	@Override
-	public List<Course> getCourse(int pageNumber, int pageSize){
+	public List<Course> getCourses(int pageNumber, int pageSize){
 		return courseDao.listAll(pageNumber, pageSize);
 	}
 	
@@ -223,7 +223,7 @@ public class CourseService extends BaseService<Course, Integer> implements
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
 
-		System.out.println("begin\n");
+//		System.out.println("begin\n");
 //		Hibernate.initialize(course.getApplications());
 		course.getApplications().add(student);
 //		System.out.println(course.getApplications().getClass().getSimpleName());
@@ -231,9 +231,9 @@ public class CourseService extends BaseService<Course, Integer> implements
 //		System.out.println(student.getApplications());
 		student.getApplications().add(course);
 //		studentDao.update(student);
-		courseDao.update(course);
+//		courseDao.update(course);
 		
-		System.out.println("end\n");
+//		System.out.println("end\n");
 		notificationDao.save(new Notification(student.getId(), 's', course.getTutor().getUser()));
 	}	
 //	@Override
@@ -268,8 +268,12 @@ public class CourseService extends BaseService<Course, Integer> implements
 	@Override
 	public void delApplication(int courseid){
 		Course course = courseDao.get(courseid);
+		for(Student s : course.getApplications()){
+			s.getApplications().remove(course);
+//			studentDao.update(s);
+		}
 		course.getApplications().clear();
-		courseDao.update(course);
+//		courseDao.update(course);
 	}
 	@Override
 	public void delApplication(String email){
@@ -278,18 +282,23 @@ public class CourseService extends BaseService<Course, Integer> implements
 		User user = userDao.queryByCriteriaUnique(queryUser);
 		Student student = user.getStudent();
 		
+		for(Course c : student.getApplications()){
+			c.getApplications().remove(student);
+//			studentDao.update(s);
+		}
 		student.getApplications().clear();
-		studentDao.update(student);
+//		studentDao.update(student);
 	}
 	@Override
 	public void delStudentApplication(int courseid, int studentid){
 		Course course = courseDao.get(courseid);
 		Student student = studentDao.get(studentid);
 		course.getApplications().remove(student);
-		courseDao.update(course);
+		student.getApplications().remove(course);
+//		courseDao.update(course);
 	}
 	@Override
-	public void delCourseApplication(String email, int courseid){
+	public void delCourseApplication(int courseid, String email){
 		Course course = courseDao.get(courseid);
 		User queryUser = new User();
 		queryUser.setEmail(email);
@@ -297,15 +306,21 @@ public class CourseService extends BaseService<Course, Integer> implements
 		Student student = user.getStudent();
 		
 		student.getApplications().remove(course);
-		studentDao.update(student);
+		course.getApplications().remove(student);
+//		studentDao.update(student);
 	}
 	@Override
 	public void addStudent(int courseid, int studentid){
 		Course course = courseDao.get(courseid);
 		Student student = studentDao.get(studentid);
 		course.setStudent(student);
+		for(Student s : course.getApplications()){
+			s.getApplications().remove(course);
+			notificationDao.save(new Notification(courseid, 'a' + 'd', student.getUser()));
+		}
 		course.getApplications().clear();
-		courseDao.update(course);
+//		courseDao.update(course);
+		notificationDao.save(new Notification(courseid, 'a' + 'a', student.getUser()));
 		notificationDao.save(new Notification(courseid, 'c', student.getUser()));
 	}
 	

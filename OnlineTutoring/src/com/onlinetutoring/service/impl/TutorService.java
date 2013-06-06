@@ -53,14 +53,47 @@ public class TutorService extends BaseService<Tutor, Integer> implements ITutorS
     	return tutorDao.listAll();
     }
     @Override
-    public List<Tutor> getTutors(String subjectName){
+    public int getTutorPageCount(int pageSize){
+    	int countAll = tutorDao.countAll();
+		int countPage = countAll / pageSize;
+		return countAll % pageSize == 0 ? countPage : countPage + 1;
+    }
+    @Override
+    public List<Tutor> getTutors(int pageNumber, int pageSize){
+    	return tutorDao.listAll(pageNumber, pageSize);
+    }
+    
+    @Override
+    public List<Tutor> getTutorsBySubject(String subjectName){
     	Subject querySubject = new Subject();
 		querySubject.setName(subjectName);
 		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
 		
 		return new ArrayList<Tutor>(subject.getTutors());
     }
-    //TODO test
+    @Override
+    public int getTutorPageCountBySubjectPageCount(String subjectName, int pageSize){
+    	Subject querySubject = new Subject();
+		querySubject.setName(subjectName);
+		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
+    	
+    	int countAll = subject.getTutors().size();
+		int countPage = countAll / pageSize;
+		return countAll % pageSize == 0 ? countPage : countPage + 1;
+    }
+    @Override
+    public List<Tutor> getTutorsBySubject(String subjectName, int pageNumber, int pageSize){
+    	Subject querySubject = new Subject();
+		querySubject.setName(subjectName);
+		Subject subject = subjectDao.queryByCriteriaUnique(querySubject);
+		
+		List<Tutor> tutorList = tutorDao.listAllWithHql(pageNumber, pageSize, "select s.tutors as t from Subject where s.id=" + subject.getId() + " order by t.id desc");
+		
+		return tutorList;
+    }
+    
+    
+    
     @Override
     public void addSpecialty(String email, String subjectName){
     	Subject querySubject = new Subject();
@@ -76,7 +109,7 @@ public class TutorService extends BaseService<Tutor, Integer> implements ITutorS
 		subject.getTutors().add(tutor);
 		
 //		tutorDao.update(tutor);
-		subjectDao.update(subject);
+//		subjectDao.update(subject);
 		
     }
     
@@ -97,7 +130,7 @@ public class TutorService extends BaseService<Tutor, Integer> implements ITutorS
 			subject = subjectDao.get((Integer) iterator.next());
 			tutor.getSubjects().add(subject);
 			subject.getTutors().add(tutor);
-			subjectDao.update(subject);
+//			subjectDao.update(subject);
 		}
 
 //		tutorDao.update(tutor);

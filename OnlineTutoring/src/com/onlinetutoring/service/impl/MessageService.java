@@ -61,7 +61,12 @@ public class MessageService extends BaseService<Message, Integer> implements
 		
 		Message message = new Message(sender, receiver, content);
 		if(messageDao.save(message) != null){
-//			notificationDao.save(new Notification(message.getId(), 'm', receiver));
+			Notification queryNotification = new Notification();
+			queryNotification.setType('m');
+			queryNotification.setUser(receiver);
+			if(notificationDao.queryByCriteriaUnique(queryNotification) == null){
+				notificationDao.save(new Notification(message.getId(), 'm', receiver));
+			}
 			return true;
 		}
 		return false;

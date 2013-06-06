@@ -52,5 +52,7 @@ public interface IBaseDao<M extends Serializable, PK extends Serializable> {
 
 	public int update(String condition);
 
+	List<M> listAllWithHql(int pn, int pageSize, String hql);
+
 
 }

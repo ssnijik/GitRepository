@@ -58,7 +58,7 @@ public class NotificationService extends BaseService<Notification, Integer> impl
 		
 		user.getNotifications().clear();
 		
-		userDao.update(user);
+//		userDao.update(user);
 		
 		return notificationList;
 		
@@ -71,6 +71,6 @@ public class NotificationService extends BaseService<Notification, Integer> impl
 		
 		user.getNotifications().clear();
 		
-		userDao.update(user);
+//		userDao.update(user);
     }
 }

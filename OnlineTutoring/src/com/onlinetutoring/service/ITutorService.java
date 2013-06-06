@@ -16,8 +16,6 @@ public interface ITutorService extends IBaseService<Tutor, Integer> {
 
 	List<Tutor> getTutors();
 
-	List<Tutor> getTutors(String subjectName);
-
 	void addSpecialty(String email, String subjectName);
 
 	void addSpecialties(String email, List<Integer> subjectids);
@@ -25,5 +23,16 @@ public interface ITutorService extends IBaseService<Tutor, Integer> {
 	void delSpecialty(String email, String subjectName);
 
 	List<Course> getCourses(String email);
+
+	List<Tutor> getTutorsBySubject(String subjectName);
+
+	int getTutorPageCount(int pageSize);
+
+	List<Tutor> getTutors(int pageNumber, int pageSize);
+
+	int getTutorPageCountBySubjectPageCount(String subjectName, int pageSize);
+
+	List<Tutor> getTutorsBySubject(String subjectName, int pageNumber,
+			int pageSize);
 
 }

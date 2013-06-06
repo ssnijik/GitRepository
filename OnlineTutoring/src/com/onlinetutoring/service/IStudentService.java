@@ -16,13 +16,9 @@ public interface IStudentService extends IBaseService<Student, Integer> {
 
 	List<Course> getCourses(String email);
 
-	void addApplication(String email, int courseid);
-
 	List<Student> getApplication(int courseid);
 
 	List<Course> getApplication(String email);
-
-	void addApplication(int studentid, int courseid);
 
 	void delApplication(int courseid);
 
@@ -30,6 +26,8 @@ public interface IStudentService extends IBaseService<Student, Integer> {
 
 	void delStudentApplication(int courseid, int studentid);
 
-	void delCourseApplication(String email, int courseid);
+	void delCourseApplication(int courseid, String email);
+
+	void addApplication(String email, int courseid);
 
 }

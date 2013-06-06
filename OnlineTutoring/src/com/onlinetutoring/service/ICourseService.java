@@ -32,8 +32,6 @@ public interface ICourseService extends IBaseService<Course, Integer> {
 
 	int getCoursePageCount(int pageSize);
 
-	List<Course> getCourse(int pageNumber, int pageSize);
-
 	List<Course> getCoursesByTutor(String email);
 
 	int getCoursesByTutorPageCount(String email, int pageSize);
@@ -49,8 +47,6 @@ public interface ICourseService extends IBaseService<Course, Integer> {
 
 	void addApplication(String email, int courseid);
 
-//	void addApplication(int studentid, int courseid);
-
 	List<Student> getApplication(int courseid);
 
 	List<Course> getApplication(String email);
@@ -61,8 +57,10 @@ public interface ICourseService extends IBaseService<Course, Integer> {
 
 	void delStudentApplication(int courseid, int studentid);
 
-	void delCourseApplication(String email, int courseid);
-
 	void addStudent(int courseid, int studentid);
+
+	void delCourseApplication(int courseid, String email);
+
+	List<Course> getCourses(int pageNumber, int pageSize);
 
 }

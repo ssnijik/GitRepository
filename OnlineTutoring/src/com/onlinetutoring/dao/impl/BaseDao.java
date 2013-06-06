@@ -149,10 +149,10 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable>
 	}
 
 	@Override
-    public int update(String condition) {
-    	Query query = getSession().createQuery(HQL_UPDATE + condition);
-    	return query.executeUpdate();
-    }
+	public int update(String condition) {
+		Query query = getSession().createQuery(HQL_UPDATE + condition);
+		return query.executeUpdate();
+	}
 
 	@Override
 	public List<M> listAll(String condition) {
@@ -168,6 +168,11 @@ public abstract class BaseDao<M extends Serializable, PK extends Serializable>
 	public List<M> listAll(int pn, int pageSize, String condition) {
 		return list(HQL_WHERE_LIST_ALL + condition + HQL_ORDER_BY, pn,
 				pageSize, new Object[] {});
+	}
+
+	@Override
+	public List<M> listAllWithHql(int pn, int pageSize, String hql) {
+		return list(hql, pn, pageSize, new Object[] {});
 	}
 
 	@Override
